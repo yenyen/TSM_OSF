@@ -9,20 +9,24 @@ package ch.heigvd.skeleton.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author aurelien
  */
+@NamedQueries(
+	@NamedQuery(
+					name = "findAllEvents",
+					query = "SELECT e FROM Event e"
+	)
+)
+
 @Entity
-public class Event implements Serializable {
+public class Event extends AbstractModel implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;   
+    
     private Application  application;
     private Player player;
     private String type;
@@ -41,14 +45,6 @@ public class Event implements Serializable {
         this.player = player;
         this.type = type;
         this.timestamp = timestamp;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Application getApplication() {
@@ -84,28 +80,11 @@ public class Event implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Event)) {
             return false;
         }
-        Event other = (Event) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return super.equals(object);
     }
-
-    @Override
-    public String toString() {
-        return "ch.heigvd.skeleton.model.Event[ id=" + id + " ]";
-    }
-    
 }

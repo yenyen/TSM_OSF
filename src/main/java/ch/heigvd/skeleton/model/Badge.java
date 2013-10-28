@@ -8,20 +8,23 @@ package ch.heigvd.skeleton.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author aurelien
  */
+@NamedQueries(
+	@NamedQuery(
+					name = "findAllBadges",
+					query = "SELECT e FROM Badge e"
+	)
+)
+
 @Entity
-public class Badge implements Serializable {
+public class Badge extends AbstractModel implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String name;
     private String description;
     private String icon;
@@ -63,21 +66,6 @@ public class Badge implements Serializable {
     public void setIcon(String icon) {
         this.icon = icon;
     }
-   
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
     @Override
     public boolean equals(Object object) {
@@ -85,16 +73,6 @@ public class Badge implements Serializable {
         if (!(object instanceof Badge)) {
             return false;
         }
-        Badge other = (Badge) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return super.equals(object);
     }
-
-    @Override
-    public String toString() {
-        return "ch.heigvd.skeleton.model.Badge[ id=" + id + " ]";
-    }
-    
 }

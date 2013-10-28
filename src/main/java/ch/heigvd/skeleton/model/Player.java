@@ -25,7 +25,7 @@ import javax.persistence.NamedQuery;
 
 @Entity
 public class Player implements Serializable {
-
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,18 +37,19 @@ public class Player implements Serializable {
 	private int numberOfPoints;
 
 	public Player() {
-		firstName = "UNDEF";
-		lastName = "UNDEF";
-		email = "UNDEF";
-		numberOfPoints = 0;
+		this(null, null, null, 0);
+	}
+	public Player(Player player) {
+		this(player.firstName, player.lastName, player.email, player.numberOfPoints);
 	}
 
-	public Player(Player player) {
-		this.firstName = player.firstName;
-		this.lastName = player.lastName;
-		this.email = player.email;
-		this.numberOfPoints = player.numberOfPoints;
+	public Player(String firstName, String lastName, String email, int numberOfPoints) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.numberOfPoints = numberOfPoints;
 	}
+
 
 	public Long getId() {
 		return id;

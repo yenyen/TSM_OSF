@@ -27,12 +27,11 @@ public class Badge implements Serializable {
     private String icon;
     
     public Badge(){
+        this(null, null, null);
     }
     
     public Badge(Badge badge){
-        name = badge.name;
-        description = badge.description;
-        icon = badge.icon;
+        this(badge.name, badge.description, badge.icon);
     }
 
     public Badge(String name, String description, String icon) {

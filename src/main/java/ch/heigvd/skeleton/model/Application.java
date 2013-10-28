@@ -29,17 +29,11 @@ public class Application implements Serializable {
     private String apiSecret;
 
     public Application(){
-        name = null;
-        description = null;
-        apiKey = null;
-        apiSecret = null;
+        this(null, null, null, null);
     }
     
     public Application(Application application){
-        name = application.name;
-        description = application.description;
-        apiKey = application.apiKey;
-        apiSecret = application.apiSecret;
+        this(application.name, application.description, application.apiKey, application.apiSecret);
     }
     
     public Application(String name, String description, String apiKey, String apiSecret) {

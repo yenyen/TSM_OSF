@@ -17,9 +17,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Olivier Liechti
  */
 @XmlRootElement
-public class PublicPlayerTO {
+public class PublicPlayerTO extends AbstractPublicTO{
 
-    private long employeeId;
     private String firstName;
     private String lastName;
     private String email;
@@ -28,8 +27,8 @@ public class PublicPlayerTO {
     public PublicPlayerTO() {
     }
 
-    public PublicPlayerTO(long employeeId, String firstName, String lastName, String email, int numberOfPoints) {
-        this.employeeId = employeeId;
+    public PublicPlayerTO(long id, String firstName, String lastName, String email, int numberOfPoints) {
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -42,14 +41,6 @@ public class PublicPlayerTO {
 
     public void setNumberOfPoints(int numberOfPoints) {
         this.numberOfPoints = numberOfPoints;
-    }
-
-    public long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
     }
 
     public String getFirstName() {

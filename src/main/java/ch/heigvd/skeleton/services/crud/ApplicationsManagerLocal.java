@@ -6,7 +6,7 @@
 
 package ch.heigvd.skeleton.services.crud;
 
-import ch.heigvd.skeleton.model.Player;
+import ch.heigvd.skeleton.model.Application;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +14,5 @@ import javax.ejb.Local;
  * @author admin
  */
 @Local
-public interface PlayersManagerLocal extends AbstractManagerLocal<Player> {
+public interface ApplicationsManagerLocal extends AbstractManagerLocal<Application> {
 }

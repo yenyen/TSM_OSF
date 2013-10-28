@@ -6,10 +6,6 @@
 
 package ch.heigvd.skeleton.model;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -34,7 +30,7 @@ public class PlayerUnitTest {
 		assertNull(o.getFirstName());
 		assertNull(o.getEmail());
 		assertNull(o.getLastName());
-		assertEquals(o.getNumberOfPoints(), 0);
+		assertEquals(0, o.getNumberOfPoints());
 	 }
 	 @Test
 	 public void testConstructor_withParameters_Values() {
@@ -42,12 +38,12 @@ public class PlayerUnitTest {
 		assertNotNull(o);
 		assertNull(o.getId());
 		assertNotNull(o.getFirstName());
-		assertEquals(o.getFirstName(), "Aurélien");
+		assertEquals("Aurélien", o.getFirstName());
 		assertNotNull(o.getLastName());
-		assertEquals(o.getLastName(), "Aurélien");
+		assertEquals("Thevoz", o.getLastName());
 		assertNotNull(o.getEmail());
-		assertEquals(o.getEmail(), "at@me.org");
+		assertEquals("at@me.org", o.getEmail());
 		
-		assertEquals(o.getNumberOfPoints(), 10);
+		assertEquals(10, o.getNumberOfPoints());
 	 }
 }

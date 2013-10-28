@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,23 +19,20 @@ import javax.persistence.NamedQuery;
  */
 @NamedQueries(
 				@NamedQuery(
-								name = "findAllEmployees",
+								name = "findAllPlayers",
 								query = "SELECT e FROM Player e"
 				)
 )
-
 @Entity
-public class Player implements Serializable {
+public class Player extends AbstractModel {
 	
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
 
 	private String firstName;
 	private String lastName;
 	private String email;
 	private int numberOfPoints;
+	private HashSet<Badge> badges;
 
 	public Player() {
 		this(null, null, null, 0);
@@ -48,15 +46,6 @@ public class Player implements Serializable {
 		this.lastName = lastName;
 		this.email = email;
 		this.numberOfPoints = numberOfPoints;
-	}
-
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -91,12 +80,18 @@ public class Player implements Serializable {
 		this.numberOfPoints = numberOfPoints;
 	}
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
+	public HashSet<Badge> getBadges() {
+		return badges;
 	}
+
+	public void setBadges(HashSet<Badge> badges) {
+		this.badges = badges;
+	}
+	
+	public void add(Badge argv){
+		badges.add(argv);
+	}
+
 
 	@Override
 	public boolean equals(Object object) {
@@ -104,16 +99,6 @@ public class Player implements Serializable {
 		if (!(object instanceof Player)) {
 			return false;
 		}
-		Player other = (Player) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
+		return super.equals(object);
 	}
-
-	@Override
-	public String toString() {
-		return "ch.heigvd.skeleton.model.Player[ id=" + id + " ]";
-	}
-
 }

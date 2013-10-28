@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Player;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -15,22 +16,22 @@ import javax.persistence.TypedQuery;
  * @author Olivier Liechti
  */
 @Stateless
-public class PlayersManager extends AbstractManager<Player> implements PlayersManagerLocal {
+public class ApplicationsManager extends AbstractManager<Application> implements ApplicationsManagerLocal {
 
 	@Override
-	public Player newEntity(Player m) {
-		return new Player(m);
+	public Application newEntity(Application m) {
+		return new Application(m);
 	}
 
 	@Override
-	public Class<Player> getEntityClass() {
-		return Player.class;
+	public Class<Application> getEntityClass() {
+		return Application.class;
 	}
 
 	@Override
-	public TypedQuery<Player> createNamedQuery(NamedQuery argv) {
+	public TypedQuery<Application> createNamedQuery(NamedQuery argv) {
 		if(argv==NamedQuery.findAll)
-			return createNamedQuery("findAllPlayers") ;
+			return createNamedQuery("findAllApplications") ;
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 

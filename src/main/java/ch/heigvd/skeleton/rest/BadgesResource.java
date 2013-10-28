@@ -1,10 +1,10 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
-import ch.heigvd.skeleton.model.Player;
-import ch.heigvd.skeleton.services.crud.PlayersManagerLocal;
-import ch.heigvd.skeleton.services.to.PlayersTOServiceLocal;
-import ch.heigvd.skeleton.to.PublicPlayerTO;
+import ch.heigvd.skeleton.model.*;
+import ch.heigvd.skeleton.services.crud.*;
+import ch.heigvd.skeleton.services.to.*;
+import ch.heigvd.skeleton.to.*;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,35 +28,36 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("players")
-public class PlayersResource {
+@Path("badges")
+public class BadgesResource {
 
     @Context
     private UriInfo context;
 
     @EJB
-    PlayersManagerLocal playersManager;
+    BadgesManagerLocal badgesManager;
 
     @EJB
-    PlayersTOServiceLocal playersTOService;
+    BadgesTOServiceLocal badgesTOService;
 
     /**
      * Creates a new instance of EmployeesResource
      */
-    public PlayersResource() {
+    public BadgesResource() {
     }
 
     /**
      * Creates a new Employee resource from the provided representation
      *
+     * @param newBadgeTO
      * @return an instance of PublicEmployeeTO
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicPlayerTO newPlayerTO) {
-        Player newPlayer = new Player();
-        playersTOService.updatePlayerEntity(newPlayer, newPlayerTO);
-        long newEmployeeId = playersManager.create(newPlayer);
+    public Response createResource(PublicBadgeTO newBadgeTO) {
+        Badge badge = new Badge();
+        badgesTOService.updateBadgeEntity(badge, newBadgeTO);
+        long newEmployeeId = badgesManager.create(badge);
         URI createdURI = context.getAbsolutePathBuilder().path(Long.toString(newEmployeeId)).build();
         return Response.created(createdURI).build();
     }
@@ -68,11 +69,11 @@ public class PlayersResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicPlayerTO> getResourceList() {
-        List<Player> players = playersManager.findAll();
-        List<PublicPlayerTO> result = new LinkedList<PublicPlayerTO>();
-        for (Player player : players) {
-            result.add(playersTOService.buildPublicPlayerTO(player));
+    public List<PublicBadgeTO> getResourceList() {
+        List<Badge> badges = badgesManager.findAll();
+        List<PublicBadgeTO> result = new LinkedList<PublicBadgeTO>();
+        for (Badge badge : badges) {
+            result.add(badgesTOService.buildPublicBadgeTO(badge));
         }
         return result;
     }
@@ -85,10 +86,10 @@ public class PlayersResource {
     @GET
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
-    public PublicPlayerTO getResource(@PathParam("id") long id) throws EntityNotFoundException {
-        Player player = playersManager.findById(id);
-        PublicPlayerTO playerTO = playersTOService.buildPublicPlayerTO(player);
-        return playerTO;
+    public PublicBadgeTO getResource(@PathParam("id") long id) throws EntityNotFoundException {
+        Badge badge = badgesManager.findById(id);
+        PublicBadgeTO badgeTO = badgesTOService.buildPublicBadgeTO(badge);
+        return badgeTO;
     }
 
     /**
@@ -99,10 +100,10 @@ public class PlayersResource {
     @PUT
     @Path("{id}")
     @Consumes({"application/json"})
-    public Response Resource(PublicPlayerTO updatedPlayerTO, @PathParam("id") long id) throws EntityNotFoundException {
-        Player playerToUpdate = playersManager.findById(id);
-        playersTOService.updatePlayerEntity(playerToUpdate, updatedPlayerTO);
-        playersManager.update(playerToUpdate);
+    public Response Resource(PublicBadgeTO updatedBadgeTO, @PathParam("id") long id) throws EntityNotFoundException {
+        Badge badgeToUpdate = badgesManager.findById(id);
+        badgesTOService.updateBadgeEntity(badgeToUpdate, updatedBadgeTO);
+        badgesManager.update(badgeToUpdate);
         return Response.ok().build();
     }
 
@@ -114,7 +115,7 @@ public class PlayersResource {
     @DELETE
     @Path("{id}")
     public Response deleteResource(@PathParam("id") long id) throws EntityNotFoundException {
-        playersManager.delete(id);
+        badgesManager.delete(id);
         return Response.ok().build();
     }
 

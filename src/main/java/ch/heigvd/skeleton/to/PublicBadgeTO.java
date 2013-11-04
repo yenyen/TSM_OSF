@@ -17,8 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Olivier Liechti
  */
 @XmlRootElement
-public class PublicBadgeTO {
-    private long badgeId;
+public class PublicBadgeTO extends AbstractPublicTO {
     private String name;
     private String description;
     private String icon;
@@ -26,19 +25,11 @@ public class PublicBadgeTO {
     public PublicBadgeTO(){ 
     }
     
-    public PublicBadgeTO(long badgeId, String name, String description, String icon) {
-        this.badgeId = badgeId;
+    public PublicBadgeTO(long id, String name, String description, String icon) {
+        super(id);
         this.name = name;
         this.description = description;
         this.icon = icon;
-    }
-
-    public long getBadgeId() {
-        return badgeId;
-    }
-
-    public void setBadgeId(long badgeId) {
-        this.badgeId = badgeId;
     }
 
     public String getName() {

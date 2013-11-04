@@ -21,7 +21,7 @@ public class EventsTOService implements EventsTOServiceLocal {
     @Override
     public void updateEventEntity(Event existingEntity, PublicEventTO newState) {
         Application application = new Application();
-        application.setId(newState.getEventId());
+        application.setId(newState.getApplicationId());
         existingEntity.setApplication(application);
         
         Player player = new Player();

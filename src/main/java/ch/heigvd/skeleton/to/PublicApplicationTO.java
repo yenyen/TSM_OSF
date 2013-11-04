@@ -26,45 +26,43 @@ public class PublicApplicationTO extends AbstractPublicTO{
     public PublicApplicationTO() {
     }
 
-	public PublicApplicationTO(long id, String name, String description, String apiKey, String apiSecret) {
-		super(id);
-		this.name = name;
-		this.description = description;
-		this.apiKey = apiKey;
-		this.apiSecret = apiSecret;
-	}
+    public PublicApplicationTO(long id, String name, String description, String apiKey, String apiSecret) {
+            super(id);
+            this.name = name;
+            this.description = description;
+            this.apiKey = apiKey;
+            this.apiSecret = apiSecret;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+            return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+            this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+            return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+            this.description = description;
+    }
 
-	public String getApiKey() {
-		return apiKey;
-	}
+    public String getApiKey() {
+            return apiKey;
+    }
 
-	public void setApiKey(String apiKey) {
-		this.apiKey = apiKey;
-	}
+    public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+    }
 
-	public String getApiSecret() {
-		return apiSecret;
-	}
+    public String getApiSecret() {
+            return apiSecret;
+    }
 
-	public void setApiSecret(String apiSecret) {
-		this.apiSecret = apiSecret;
-	}
-	
-
+    public void setApiSecret(String apiSecret) {
+            this.apiSecret = apiSecret;
+    }
 }

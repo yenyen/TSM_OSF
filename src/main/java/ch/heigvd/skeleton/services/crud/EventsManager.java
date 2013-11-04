@@ -1,6 +1,6 @@
 package ch.heigvd.skeleton.services.crud;
 
-import ch.heigvd.skeleton.model.Player;
+import ch.heigvd.skeleton.model.Event;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
@@ -11,22 +11,22 @@ import javax.persistence.TypedQuery;
  * @author Olivier Liechti
  */
 @Stateless
-public class PlayersManager extends AbstractManager<Player> implements PlayersManagerLocal {
+public class EventsManager extends AbstractManager<Event> implements EventsManagerLocal {
 
 	@Override
-	public Player newEntity(Player m) {
-		return new Player(m);
+	public Event newEntity(Event m) {
+		return new Event(m);
 	}
 
 	@Override
-	public Class<Player> getEntityClass() {
-		return Player.class;
+	public Class<Event> getEntityClass() {
+		return Event.class;
 	}
 
 	@Override
-	public TypedQuery<Player> createNamedQuery(NamedQuery argv) {
+	public TypedQuery<Event> createNamedQuery(NamedQuery argv) {
 		if(argv==NamedQuery.findAll)
-			return createNamedQuery("findAllPlayers") ;
+			return createNamedQuery("findAllEvents") ;
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 

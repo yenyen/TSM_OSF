@@ -1,5 +1,6 @@
 package ch.heigvd.skeleton.services.to;
 
+
 import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.to.PublicApplicationTO;
 import javax.ejb.Local;

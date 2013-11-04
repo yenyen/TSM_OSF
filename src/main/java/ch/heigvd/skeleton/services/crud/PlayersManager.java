@@ -1,11 +1,7 @@
 package ch.heigvd.skeleton.services.crud;
 
-import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
 import ch.heigvd.skeleton.model.Player;
-import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**

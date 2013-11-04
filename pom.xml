@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ch.heigvd</groupId>
-    <artifactId>Skeleton</artifactId>
+    <artifactId>thevoz-phanzu-gamification</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -31,6 +31,18 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+<!--        <dependency>
+            <groupId>ch.heigvd</groupId>
+            <artifactId>Skeleton</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>org.glassfish.main.extras</groupId>
+            <artifactId>glassfish-embedded-static-shell</artifactId>
+            <version>4.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>

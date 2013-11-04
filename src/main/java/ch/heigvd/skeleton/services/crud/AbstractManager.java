@@ -16,7 +16,8 @@ import javax.persistence.TypedQuery;
 public abstract class AbstractManager<T extends AbstractModel> implements AbstractManagerLocal<T> {
 	
 	public enum NamedQuery{
-		findAll
+		findAll,
+                findAllOrderByPoints
 	}
 
 	@PersistenceContext(unitName = "ch.heigvd_Skeleton_war_1.0-SNAPSHOTPU")

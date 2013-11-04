@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("applications")
+@Path("events")
 public class EventsResource {
 
     @Context

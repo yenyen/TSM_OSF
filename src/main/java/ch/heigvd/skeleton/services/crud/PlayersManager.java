@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.model.Player;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
@@ -27,7 +28,16 @@ public class PlayersManager extends AbstractManager<Player> implements PlayersMa
 	public TypedQuery<Player> createNamedQuery(NamedQuery argv) {
 		if(argv==NamedQuery.findAll)
 			return createNamedQuery("findAllPlayers") ;
+                else if(argv == NamedQuery.findAllOrderByPoints)
+                        return createNamedQuery("findAllPlayersOrderByPoints");
+                
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
+       public List<Player> findTopPlayers(int top) {
+		List l = createNamedQuery(NamedQuery.findAllOrderByPoints)
+                        .setFirstResult(top)
+                        .getResultList();
+		return l;
+	}
 }

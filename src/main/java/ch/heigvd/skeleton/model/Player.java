@@ -17,12 +17,17 @@ import javax.persistence.NamedQuery;
  *
  * @author Olivier Liechti
  */
-@NamedQueries(
+@NamedQueries({
 				@NamedQuery(
 								name = "findAllPlayers",
 								query = "SELECT e FROM Player e"
-				)
-)
+				),
+        			@NamedQuery(
+								name = "findAllPlayersOrderByPoints",
+								query = "SELECT e FROM Player e orderby e.numberOfPoints "
+                                )
+})
+
 @Entity
 public class Player extends AbstractModel {
 	

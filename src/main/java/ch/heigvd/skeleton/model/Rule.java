@@ -25,7 +25,7 @@ import javax.persistence.NamedQuery;
     ),
     @NamedQuery(
         name = "findRulesByType",
-        query = "SELEC r FROM Rule where r.onEventType = @onEventType"
+        query = "SELEC r FROM Rule where r.onEventType = :onEventType"
     )
 })
 

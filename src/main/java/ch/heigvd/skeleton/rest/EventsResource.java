@@ -34,10 +34,11 @@ public class EventsResource {
     private UriInfo context;
 
     @EJB
-    EventsManagerLocal applicationsManager;
+    EventsManagerLocal eventsManager;
+
 
     @EJB
-    EventsTOServiceLocal applicationsTOService;
+    EventsTOServiceLocal eventsTOService;
 
     /**
      * Creates a new instance of EventsResource
@@ -54,9 +55,9 @@ public class EventsResource {
     @POST
     @Consumes({"application/json"})
     public Response createResource(PublicEventTO newTO) {
-        Event application = new Event();
-        applicationsTOService.updateEventEntity(application, newTO);
-        long newEventId = applicationsManager.create(application);
+        Event event = new Event();
+        eventsTOService.updateEventEntity(event, newTO);
+        long newEventId = eventsManager.create(event);
         URI createdURI = context.getAbsolutePathBuilder().path(Long.toString(newEventId)).build();
         return Response.created(createdURI).build();
     }
@@ -69,10 +70,10 @@ public class EventsResource {
     @GET
     @Produces({"application/json", "application/xml"})
     public List<PublicEventTO> getResourceList() {
-        List<Event> applications = applicationsManager.findAll();
+        List<Event> applications = eventsManager.findAll();
         List<PublicEventTO> result = new LinkedList<PublicEventTO>();
         for (Event application : applications) {
-            result.add(applicationsTOService.buildPublicEventTO(application));
+            result.add(eventsTOService.buildPublicEventTO(application));
         }
         return result;
     }
@@ -86,8 +87,8 @@ public class EventsResource {
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
     public PublicEventTO getResource(@PathParam("id") long id) throws EntityNotFoundException {
-        Event application = applicationsManager.findById(id);
-        PublicEventTO applicationTO = applicationsTOService.buildPublicEventTO(application);
+        Event application = eventsManager.findById(id);
+        PublicEventTO applicationTO = eventsTOService.buildPublicEventTO(application);
         return applicationTO;
     }
 
@@ -100,7 +101,7 @@ public class EventsResource {
     @DELETE
     @Path("{id}")
     public Response deleteResource(@PathParam("id") long id) throws EntityNotFoundException {
-        applicationsManager.delete(id);
+        eventsManager.delete(id);
         return Response.ok().build();
     }
 

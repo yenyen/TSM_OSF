@@ -18,12 +18,16 @@ import javax.persistence.NamedQuery;
  *
  * @author aurelien
  */
-@NamedQueries(
-	@NamedQuery(
-					name = "findAllRules",
-					query = "SELECT e FROM Rule e"
-	)
-)
+@NamedQueries({      
+    @NamedQuery(
+        name = "findAllRules",
+        query = "SELECT r FROM Rule r"
+    ),
+    @NamedQuery(
+        name = "findRulesByType",
+        query = "SELEC r FROM Rule where r.onEventType = @onEventType"
+    )
+})
 
 @Entity
 public class Rule extends AbstractModel implements Serializable {

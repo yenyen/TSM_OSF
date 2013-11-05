@@ -1,25 +1,17 @@
 package ch.heigvd.skeleton.rest;
 
-import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
 import ch.heigvd.skeleton.model.*;
 import ch.heigvd.skeleton.services.crud.*;
 import ch.heigvd.skeleton.services.to.*;
 import ch.heigvd.skeleton.to.*;
-import java.net.URI;
-import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service

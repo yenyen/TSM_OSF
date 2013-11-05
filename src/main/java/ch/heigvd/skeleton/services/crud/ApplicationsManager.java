@@ -34,5 +34,4 @@ public class ApplicationsManager extends AbstractManager<Application> implements
 			return createNamedQuery("findAllApplications") ;
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-
 }

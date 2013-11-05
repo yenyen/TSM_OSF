@@ -8,9 +8,6 @@ package ch.heigvd.skeleton.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -21,16 +18,16 @@ import javax.persistence.NamedQuery;
 @NamedQueries({      
     @NamedQuery(
         name = "findAllRules",
-        query = "SELECT r FROM Rule r"
+        query = "SELECT r FROM Rule r where e.application.id = :applicationId"
     ),
     @NamedQuery(
         name = "findRulesByType",
-        query = "SELEC r FROM Rule where r.onEventType = :onEventType"
+        query = "SELEC r FROM Rule where e.application.id = :applicationId and r.onEventType = :onEventType"
     )
 })
 
 @Entity
-public class Rule extends AbstractModel implements Serializable {
+public class Rule extends AbstractLinkApplicationModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String  onEventType;
@@ -41,12 +38,10 @@ public class Rule extends AbstractModel implements Serializable {
     }
     
     public Rule(Rule rule) {
-        badge = rule.badge;
-        onEventType = rule.onEventType;
-        numberOfPoints = rule.numberOfPoints;
+        this(rule.getApplication(), rule.onEventType, rule.numberOfPoints, rule.badge);
     }
     
-    public Rule(String onEventType, int numberOfPoints, Badge badge) {
+    public Rule(Application application, String onEventType, int numberOfPoints, Badge badge) {
         this.onEventType = onEventType;
         this.numberOfPoints = numberOfPoints;
         this.badge = badge;

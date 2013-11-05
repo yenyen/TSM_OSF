@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("rules")
+@Path("applications/{applicationId}/rules")
 public class RulesResource {
 
     @Context
@@ -68,8 +68,8 @@ public class RulesResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicRuleTO> getResourceList() {
-        List<Rule> rules = rulesManager.findAll();
+    public List<PublicRuleTO> getResourceList(@PathParam("applicationId") long applicationId) {
+        List<Rule> rules = rulesManager.findAll(applicationId);
         List<PublicRuleTO> result = new LinkedList<PublicRuleTO>();
         for (Rule rule : rules) {
             result.add(rulesTOService.buildPublicRuleTO(rule));

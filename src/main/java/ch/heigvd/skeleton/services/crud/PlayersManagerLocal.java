@@ -16,5 +16,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface PlayersManagerLocal extends AbstractManagerLocal<Player> {
-    List<Player> findTopPlayers(int top);
+    List<Player> findTopPlayers(long applicationId, int top);
 }

@@ -34,8 +34,9 @@ public class PlayersManager extends AbstractManager<Player> implements PlayersMa
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
-       public List<Player> findTopPlayers(int top) {
+       public List<Player> findTopPlayers(long applicationId, int top) {
 		List l = createNamedQuery(NamedQuery.findAllOrderByPoints)
+                        .setParameter("applicationId", applicationId)
                         .setFirstResult(top)
                         .getResultList();
 		return l;

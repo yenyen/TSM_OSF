@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("players")
+@Path("applications/{applicationId}/players")
 public class PlayersResource {
 
     @Context
@@ -68,8 +68,8 @@ public class PlayersResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicPlayerTO> getResourceList() {
-        List<Player> players = playersManager.findAll();
+    public List<PublicPlayerTO> getResourceList(@PathParam("applicationId") long applicationId) {
+        List<Player> players = playersManager.findAll(applicationId);
         List<PublicPlayerTO> result = new LinkedList<PublicPlayerTO>();
         for (Player player : players) {
             result.add(playersTOService.buildPublicPlayerTO(player));

@@ -28,4 +28,6 @@ public interface AbstractManagerLocal<T extends AbstractModel> {
 	T findById(long id) throws EntityNotFoundException;
 
 	List<T> findAll();
+        
+        List<T> findAll(long applicationId);
 }

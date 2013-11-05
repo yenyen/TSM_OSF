@@ -18,16 +18,15 @@ import javax.persistence.NamedQuery;
  */
 @NamedQueries(
 	@NamedQuery(
-					name = "findAllEvents",
-					query = "SELECT e FROM Event e"
+                name = "findAllEvents",
+                query = "SELECT e FROM Event e where e.application.id = :applicationId"
 	)
 )
 
 @Entity
-public class Event extends AbstractModel implements Serializable {
+public class Event extends AbstractLinkApplicationModel implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    private Application  application;
     private Player player;
     private String type;
     private Timestamp timestamp;
@@ -37,24 +36,16 @@ public class Event extends AbstractModel implements Serializable {
     }
     
     public Event(Event event){
-        this(event.application, event.player, event.type, event.timestamp);
+        this(event.getApplication(), event.player, event.type, event.timestamp);
     }
     
     public Event(Application application, Player player, String type, Timestamp timestamp) {
-        this.application = application;
+        super(application);
         this.player = player;
         this.type = type;
         this.timestamp = timestamp;
     }
-
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
-
+    
     public Player getPlayer() {
         return player;
     }

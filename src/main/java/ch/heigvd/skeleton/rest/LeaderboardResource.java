@@ -11,6 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 /**
@@ -19,7 +20,7 @@ import javax.ws.rs.Produces;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("leaderboard")
+@Path("applications/{applicationId}/leaderboard")
 public class LeaderboardResource {
 
     @Context
@@ -45,8 +46,8 @@ public class LeaderboardResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public PublicLeaderboardTO getResourceList() {
-        List<Player> players = playersManager.findTopPlayers(5);
+    public PublicLeaderboardTO getResourceList(@PathParam("applicationId") long applicationId) {
+        List<Player> players = playersManager.findTopPlayers(applicationId, 5);
         return leaderboardTOService.buildPublicLeaderboardTO("Top 5", "Top 5 players by points",  players);
     }
 

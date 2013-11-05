@@ -67,4 +67,12 @@ public abstract class AbstractManager<T extends AbstractModel> implements Abstra
 		List l = createNamedQuery(NamedQuery.findAll).getResultList();
 		return l;
 	}
+        
+        @Override
+	public List<T> findAll(long applicationId) {
+		List l = createNamedQuery(NamedQuery.findAll)
+                        .setParameter("applicationId", applicationId)
+                        .getResultList();
+		return l;
+	}
 }

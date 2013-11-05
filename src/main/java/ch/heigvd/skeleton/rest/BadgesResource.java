@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("badges")
+@Path("applications/{applicationId}/badges")
 public class BadgesResource {
 
     @Context
@@ -69,8 +69,8 @@ public class BadgesResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicBadgeTO> getResourceList() {
-        List<Badge> badges = badgesManager.findAll();
+    public List<PublicBadgeTO> getResourceList(@PathParam("applicationId") long applicationId) {
+        List<Badge> badges = badgesManager.findAll(applicationId);
         List<PublicBadgeTO> result = new LinkedList<PublicBadgeTO>();
         for (Badge badge : badges) {
             result.add(badgesTOService.buildPublicBadgeTO(badge));

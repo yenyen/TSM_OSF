@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("events")
+@Path("applications/{applicationId}/events")
 public class EventsResource {
 
     @Context
@@ -69,8 +69,8 @@ public class EventsResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicEventTO> getResourceList() {
-        List<Event> applications = eventsManager.findAll();
+    public List<PublicEventTO> getResourceList(@PathParam("applicationId") long applicationId) {
+        List<Event> applications = eventsManager.findAll(applicationId);
         List<PublicEventTO> result = new LinkedList<PublicEventTO>();
         for (Event application : applications) {
             result.add(eventsTOService.buildPublicEventTO(application));

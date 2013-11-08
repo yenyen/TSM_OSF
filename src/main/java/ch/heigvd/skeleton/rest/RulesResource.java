@@ -1,7 +1,10 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.LoginFailedException;
+import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Rule;
+import ch.heigvd.skeleton.services.crud.ApplicationsManagerLocal;
 import ch.heigvd.skeleton.services.crud.RulesManagerLocal;
 import ch.heigvd.skeleton.services.to.RulesTOServiceLocal;
 import ch.heigvd.skeleton.to.PublicRuleTO;
@@ -33,6 +36,9 @@ public class RulesResource {
 
     @Context
     private UriInfo context;
+    
+    @EJB
+    ApplicationsManagerLocal applicationsManager;
 
     @EJB
     RulesManagerLocal rulesManager;
@@ -53,9 +59,12 @@ public class RulesResource {
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicRuleTO newRuleTO) {
+    public Response createResource(PublicRuleTO newRuleTO, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+            throws LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
         Rule newRule = new Rule();
         rulesTOService.updateRuleEntity(newRule, newRuleTO);
+        newRule.setApplication(application);
         long newRuleId = rulesManager.create(newRule);
         URI createdURI = context.getAbsolutePathBuilder().path(Long.toString(newRuleId)).build();
         return Response.created(createdURI).build();
@@ -68,8 +77,10 @@ public class RulesResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicRuleTO> getResourceList(@PathParam("applicationId") long applicationId) {
-        List<Rule> rules = rulesManager.findAll(applicationId);
+    public List<PublicRuleTO> getResourceList(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+            throws LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        List<Rule> rules = rulesManager.findAll(application.getId());
         List<PublicRuleTO> result = new LinkedList<PublicRuleTO>();
         for (Rule rule : rules) {
             result.add(rulesTOService.buildPublicRuleTO(rule));
@@ -85,8 +96,13 @@ public class RulesResource {
     @GET
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
-    public PublicRuleTO getResource(@PathParam("id") long id) throws EntityNotFoundException {
+    public PublicRuleTO getResource(@PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret)
+            throws EntityNotFoundException, LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
         Rule rule = rulesManager.findById(id);
+        if(rule.getApplication() != application)
+            throw new EntityNotFoundException();
+        
         PublicRuleTO ruleTO = rulesTOService.buildPublicRuleTO(rule);
         return ruleTO;
     }
@@ -99,8 +115,13 @@ public class RulesResource {
     @PUT
     @Path("{id}")
     @Consumes({"application/json"})
-    public Response Resource(PublicRuleTO updatedRuleTO, @PathParam("id") long id) throws EntityNotFoundException {
+    public Response Resource(PublicRuleTO updatedRuleTO, @PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+            throws EntityNotFoundException, LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
         Rule ruleToUpdate = rulesManager.findById(id);
+        if(ruleToUpdate.getApplication() != application)
+            throw new EntityNotFoundException();
+            
         rulesTOService.updateRuleEntity(ruleToUpdate, updatedRuleTO);
         rulesManager.update(ruleToUpdate);
         return Response.ok().build();
@@ -113,7 +134,12 @@ public class RulesResource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteResource(@PathParam("id") long id) throws EntityNotFoundException {
+    public Response deleteResource(@PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+            throws EntityNotFoundException, LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        if(rulesManager.findById(id).getApplication() != application)
+            throw new EntityNotFoundException();
+        
         rulesManager.delete(id);
         return Response.ok().build();
     }

@@ -1,5 +1,6 @@
 package ch.heigvd.skeleton.rest;
 
+import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.*;
 import ch.heigvd.skeleton.services.crud.*;
 import ch.heigvd.skeleton.services.to.*;
@@ -20,11 +21,14 @@ import javax.ws.rs.Produces;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("applications/{applicationId}/leaderboard")
+@Path("applications/{apiKey}/{apiSecret}/leaderboard")
 public class LeaderboardResource {
 
     @Context
     private UriInfo context;
+    
+    @EJB
+    ApplicationsManagerLocal applicationsManager;
 
     @EJB
     PlayersManagerLocal playersManager;
@@ -46,8 +50,10 @@ public class LeaderboardResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public PublicLeaderboardTO getResourceList(@PathParam("applicationId") long applicationId) {
-        List<Player> players = playersManager.findTopPlayers(applicationId, 5);
+    public PublicLeaderboardTO getResourceList(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+            throws LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        List<Player> players = playersManager.findTopPlayers(application.getId(), 5);
         return leaderboardTOService.buildPublicLeaderboardTO("Top 5", "Top 5 players by points",  players);
     }
 

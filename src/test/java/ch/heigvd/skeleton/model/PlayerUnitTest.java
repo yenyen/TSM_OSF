@@ -34,7 +34,7 @@ public class PlayerUnitTest {
 	 }
 	 @Test
 	 public void testConstructor_withParameters_Values() {
-		Player o = new Player("Aurélien", "Thevoz", "at@me.org", 10);
+		Player o = new Player(null, "Aurélien", "Thevoz", "at@me.org", 10);
 		assertNotNull(o);
 		assertNull(o.getId());
 		assertNotNull(o.getFirstName());

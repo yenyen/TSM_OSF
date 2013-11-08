@@ -19,6 +19,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -31,15 +32,8 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("applications/{apiKey}/{apiSecret}/players")
-public class PlayersResource {
-
-    @Context
-    private UriInfo context;
-    
-    @EJB
-    ApplicationsManagerLocal applicationsManager;
-    
+@Path("players")
+public class PlayersResource extends AbstractResource{
     @EJB
     PlayersManagerLocal playersManager;
 
@@ -59,7 +53,7 @@ public class PlayersResource {
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicPlayerTO newPlayerTO, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) throws LoginFailedException {
+    public Response createResource(PublicPlayerTO newPlayerTO) throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         
         Player newPlayer = new Player();
@@ -77,8 +71,9 @@ public class PlayersResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicPlayerTO> getResourceList(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) throws LoginFailedException {
+    public List<PublicPlayerTO> getResourceList() throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
+		
 
         List<Player> players = playersManager.findAll(application.getId());
         List<PublicPlayerTO> result = new LinkedList<PublicPlayerTO>();
@@ -96,10 +91,12 @@ public class PlayersResource {
     @GET
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
-    public PublicPlayerTO getResource(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+    public PublicPlayerTO getResource(@PathParam("id") long id) 
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
-        Player player = playersManager.findById(application.getId());
+		playersManager.setApplication(application);
+		
+        Player player = playersManager.findById(id);
         PublicPlayerTO playerTO = playersTOService.buildPublicPlayerTO(player);
         return playerTO;
     }
@@ -112,7 +109,7 @@ public class PlayersResource {
     @PUT
     @Path("{id}")
     @Consumes({"application/json"})
-    public Response Resource(PublicPlayerTO updatedPlayerTO, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret, @PathParam("id") long id) 
+    public Response Resource(@PathParam("id") long id, PublicPlayerTO updatedPlayerTO) 
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         
@@ -132,7 +129,7 @@ public class PlayersResource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteResource(@PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret)
+    public Response deleteResource(@PathParam("id") long id)
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         if(playersManager.findById(id).getApplication() != application)

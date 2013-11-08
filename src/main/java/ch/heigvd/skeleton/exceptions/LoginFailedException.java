@@ -14,5 +14,6 @@ import javax.ejb.ApplicationException;
  */
 @ApplicationException(rollback = true)
 public class LoginFailedException extends Exception {
-    
+    public LoginFailedException(){super();}
+	public LoginFailedException(Exception e){super(e);}
 }

@@ -29,7 +29,7 @@ import javax.persistence.OneToMany;
         ),
         @NamedQuery(
                                         name = "findAllPlayersOrderByPoints",
-                                        query = "SELECT e FROM Player e orderby e.numberOfPoints where e.application.id = :applicationId"
+                                        query = "SELECT e FROM Player e where e.application.id = :applicationId ORDER BY  e.numberOfPoints"
         )
 })
 

@@ -7,7 +7,7 @@
         <property name="databaseName" value="phanzu_thevoz_db_gamification"/>
         <property name="User" value="skeleton"/>
         <property name="Password" value="skeletonpw"/>
-        <property name="URL" value="jdbc:derby://localhost:1527/skeletonDB"/>
+        <property name="URL" value="jdbc:derby://localhost:1527/phanzu_thevoz_db_gamification"/>
         <property name="driverClass" value="org.apache.derby.jdbc.ClientDriver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="jdbc/skeletonDS" object-type="user" pool-name="derby_net_skeletonDB_skeletonPool"/>

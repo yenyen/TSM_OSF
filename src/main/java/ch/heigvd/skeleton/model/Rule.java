@@ -18,11 +18,11 @@ import javax.persistence.NamedQuery;
 @NamedQueries({      
     @NamedQuery(
         name = "findAllRules",
-        query = "SELECT r FROM Rule r where e.application.id = :applicationId"
+        query = "SELECT r FROM Rule r where r.application.id = :applicationId"
     ),
     @NamedQuery(
         name = "findRulesByType",
-        query = "SELEC r FROM Rule where e.application.id = :applicationId and r.onEventType = :onEventType"
+        query = "SELECT r FROM Rule r where r.application.id = :applicationId and r.onEventType = :onEventType"
     )
 })
 

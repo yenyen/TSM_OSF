@@ -8,6 +8,7 @@ package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
 import ch.heigvd.skeleton.model.AbstractModel;
+import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Player;
 import java.util.List;
 import javax.ejb.Local;
@@ -19,6 +20,7 @@ import javax.ejb.Local;
 @Local
 public interface AbstractManagerLocal<T extends AbstractModel> {
 
+	void setApplication(Application app);
 	long create(T player);
 
 	void update(T newState) throws EntityNotFoundException;

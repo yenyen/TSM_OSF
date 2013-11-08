@@ -8,6 +8,7 @@ import ch.heigvd.skeleton.to.*;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -21,6 +22,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 /**
  * REST Web Service
@@ -31,8 +33,11 @@ import javax.ws.rs.core.Response;
 @Path("applications")
 public class ApplicationsResource {
 
+	Logger logger=Logger.getLogger(getClass().getName());
     @Context
-    private UriInfo context;
+	private UriInfo context;
+	@Context
+	private SecurityContext securityContext;
 
     @EJB
     ApplicationsManagerLocal applicationsManager;
@@ -70,10 +75,20 @@ public class ApplicationsResource {
     @GET
     @Produces({"application/json", "application/xml"})
     public List<PublicApplicationTO> getResourceList() {
-        List<Application> applications = applicationsManager.findAll();
+
+		if(securityContext!=null){
+			logger.info(String.format("%s -> %s", securityContext.getAuthenticationScheme(), securityContext.getUserPrincipal()));
+		}
+        List<Application> l = applicationsManager.findAll();
+		if(l==null){
+			logger.info("No result");
+		}else{
+			logger.info(String.format("Applications.count:%d", l.size()));
+		}
         List<PublicApplicationTO> result = new LinkedList<PublicApplicationTO>();
-        for (Application application : applications) {
-            result.add(applicationsTOService.buildPublicApplicationTO(application));
+        for (Application dr : l) {
+			PublicApplicationTO o = applicationsTOService.buildPublicApplicationTO(dr);
+            result.add(o);
         }
         return result;
     }
@@ -95,6 +110,8 @@ public class ApplicationsResource {
     /**
      * Updates an Employee resource
      *
+	 * @param updatedApplicationTO
+	 * @param id
      * @return an instance of PublicEmployeeTO
      */
     @PUT

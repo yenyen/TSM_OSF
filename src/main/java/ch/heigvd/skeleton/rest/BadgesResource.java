@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -29,9 +30,14 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("applications/{apiKey}/{apiSecret}/badges")
-public class BadgesResource {
 
+@Path("badges")
+public class BadgesResource {
+	@HeaderParam(value = "apiKey")
+	public String apiKey;
+	@HeaderParam(value = "apiSecret")
+	public String apiSecret;
+	
     @Context
     private UriInfo context;
 
@@ -58,7 +64,7 @@ public class BadgesResource {
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicBadgeTO newBadgeTO, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+    public Response createResource(PublicBadgeTO newBadgeTO) 
             throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         
@@ -77,7 +83,7 @@ public class BadgesResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicBadgeTO> getResourceList(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+    public List<PublicBadgeTO> getResourceList() 
             throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         List<Badge> badges = badgesManager.findAll(application.getId());
@@ -96,7 +102,7 @@ public class BadgesResource {
     @GET
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
-    public PublicBadgeTO getResource(@PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+    public PublicBadgeTO getResource(@PathParam("id") long id) 
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Badge badge = badgesManager.findById(id);
@@ -116,8 +122,7 @@ public class BadgesResource {
     @PUT
     @Path("{id}")
     @Consumes({"application/json"})
-    public Response Resource(PublicBadgeTO updatedBadgeTO, @PathParam("id") long id, 
-            @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+    public Response Resource(@PathParam("id") long id, PublicBadgeTO updatedBadgeTO) 
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Badge badgeToUpdate = badgesManager.findById(id);
@@ -137,7 +142,7 @@ public class BadgesResource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteResource(@PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret)
+    public Response deleteResource(@PathParam("id") long id)
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         if(badgesManager.findById(id).getApplication() != application)

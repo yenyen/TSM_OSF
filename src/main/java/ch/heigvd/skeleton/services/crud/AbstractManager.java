@@ -2,7 +2,9 @@ package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
 import ch.heigvd.skeleton.model.AbstractModel;
+import ch.heigvd.skeleton.model.Application;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -15,6 +17,7 @@ import javax.persistence.TypedQuery;
  */
 public abstract class AbstractManager<T extends AbstractModel> implements AbstractManagerLocal<T> {
 	
+	Logger logger=Logger.getLogger(getClass().getName());
 	public enum NamedQuery{
 		findAll,
                 findAllOrderByPoints, 
@@ -25,6 +28,15 @@ public abstract class AbstractManager<T extends AbstractModel> implements Abstra
 	@PersistenceContext(unitName = "ch.heigvd_Skeleton_war_1.0-SNAPSHOTPU")
 	private EntityManager em;
 
+	Application currentApplication=null;
+	@Override
+	public void setApplication(Application app) {
+		currentApplication=app;
+	}
+
+	
+
+	
 	public abstract T newEntity(T m);
 	public abstract Class<T> getEntityClass();
 	public abstract TypedQuery<T> createNamedQuery(NamedQuery argv);

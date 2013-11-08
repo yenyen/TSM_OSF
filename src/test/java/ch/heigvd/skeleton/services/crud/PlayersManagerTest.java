@@ -107,8 +107,16 @@ public class PlayersManagerTest {
 		try {
 
 			Context c = getContainer().getContext();
-			return (PlayersManager) c.lookup(PlayersManager.class.getName());
+			//MyBean instance = (MyBean) c.getContext().lookup("java:global/classes/MyBean");
+			//String l="java:global/classes/"+PlayersManager.class.getName().replace('.', '/');
+			String l="java:global/classes/"+PlayersManager.class.getSimpleName();
+			Object o = c.lookup(l);
+			logger.info(l+":"+o);
+			return (PlayersManager) o;
 			//return (PlayersManager) c.lookup("java:global/ch.heigvd_Skeleton_war_1.0-SNAPSHOT/PlayersManager!ch.heigvd.skeleton.services.crud.PlayersManager");
+		} catch (ClassCastException e) {
+			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+			throw new RuntimeException(e);
 		} catch (NamingException ne) {
 			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
 			throw new RuntimeException(ne);

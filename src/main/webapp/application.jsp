@@ -1,14 +1,11 @@
-<html>
-<head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.js"></script>
-	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
-</head>
+<%-- 
+    Document   : index
+    Created on : Nov 8, 2013, 11:13:12 PM
+    Author     : komanda.phanzu
+--%>
 
-<body>  
-
-<button id="ajax">ajax call</button>
-<button id="ajax_xml">ajax_xml call</button>
-<button id="json">json</button>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="top.jspf" %>
 <form data-bind="submit: create" method="post">
 	<fieldset>
 		<div>
@@ -55,7 +52,7 @@
 	</tbody>	
 </table>
 
-<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript" src="application.js"></script>
 <script type="text/javascript">
 	<!--
 	var viewModel=new ViewModel();
@@ -63,7 +60,4 @@
 	ko.applyBindings(viewModel);
 	-->
 </script>
-
-</body>
-
-</html>
+<%@include file="bottom.jspf" %>

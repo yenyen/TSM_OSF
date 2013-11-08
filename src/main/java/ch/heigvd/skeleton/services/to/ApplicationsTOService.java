@@ -21,7 +21,7 @@ public class ApplicationsTOService implements ApplicationsTOServiceLocal {
         existingEntity.setDescription(newState.getDescription());
         existingEntity.setName(newState.getName());
         existingEntity.setApiSecret(newState.getApiSecret());
-        existingEntity.setApiSecret(newState.getApiKey());
+        existingEntity.setApiKey(newState.getApiKey());
     }
     
 }

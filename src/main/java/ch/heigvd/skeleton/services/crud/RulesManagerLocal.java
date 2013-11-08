@@ -6,8 +6,9 @@
 
 package ch.heigvd.skeleton.services.crud;
 
-import ch.heigvd.skeleton.exceptions.LoginFailedException;
-import ch.heigvd.skeleton.model.Application;
+import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.model.Event;
+import ch.heigvd.skeleton.model.Rule;
 import javax.ejb.Local;
 
 /**
@@ -15,6 +16,6 @@ import javax.ejb.Local;
  * @author admin
  */
 @Local
-public interface ApplicationsManagerLocal extends AbstractManagerLocal<Application> {
-    Application login(String apiKey, String apiSecret) throws LoginFailedException;
+public interface RulesManagerLocal extends AbstractManagerLocal<Rule> {
+    public void notifyEvent(Event event) throws EntityNotFoundException ;
 }

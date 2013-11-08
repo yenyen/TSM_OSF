@@ -1,7 +1,10 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.LoginFailedException;
+import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Player;
+import ch.heigvd.skeleton.services.crud.ApplicationsManagerLocal;
 import ch.heigvd.skeleton.services.crud.PlayersManagerLocal;
 import ch.heigvd.skeleton.services.to.PlayersTOServiceLocal;
 import ch.heigvd.skeleton.to.PublicPlayerTO;
@@ -28,12 +31,15 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("players")
+@Path("applications/{apiKey}/{apiSecret}/players")
 public class PlayersResource {
 
     @Context
     private UriInfo context;
-
+    
+    @EJB
+    ApplicationsManagerLocal applicationsManager;
+    
     @EJB
     PlayersManagerLocal playersManager;
 
@@ -53,9 +59,12 @@ public class PlayersResource {
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicPlayerTO newPlayerTO) {
+    public Response createResource(PublicPlayerTO newPlayerTO, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) throws LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        
         Player newPlayer = new Player();
         playersTOService.updatePlayerEntity(newPlayer, newPlayerTO);
+        newPlayer.setApplication(application);
         long newEmployeeId = playersManager.create(newPlayer);
         URI createdURI = context.getAbsolutePathBuilder().path(Long.toString(newEmployeeId)).build();
         return Response.created(createdURI).build();
@@ -68,8 +77,10 @@ public class PlayersResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicPlayerTO> getResourceList() {
-        List<Player> players = playersManager.findAll();
+    public List<PublicPlayerTO> getResourceList(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) throws LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+
+        List<Player> players = playersManager.findAll(application.getId());
         List<PublicPlayerTO> result = new LinkedList<PublicPlayerTO>();
         for (Player player : players) {
             result.add(playersTOService.buildPublicPlayerTO(player));
@@ -85,8 +96,10 @@ public class PlayersResource {
     @GET
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
-    public PublicPlayerTO getResource(@PathParam("id") long id) throws EntityNotFoundException {
-        Player player = playersManager.findById(id);
+    public PublicPlayerTO getResource(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+            throws EntityNotFoundException, LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        Player player = playersManager.findById(application.getId());
         PublicPlayerTO playerTO = playersTOService.buildPublicPlayerTO(player);
         return playerTO;
     }
@@ -99,8 +112,14 @@ public class PlayersResource {
     @PUT
     @Path("{id}")
     @Consumes({"application/json"})
-    public Response Resource(PublicPlayerTO updatedPlayerTO, @PathParam("id") long id) throws EntityNotFoundException {
+    public Response Resource(PublicPlayerTO updatedPlayerTO, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret, @PathParam("id") long id) 
+            throws EntityNotFoundException, LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        
         Player playerToUpdate = playersManager.findById(id);
+        if(playerToUpdate.getApplication() != application)
+            throw new EntityNotFoundException();
+        
         playersTOService.updatePlayerEntity(playerToUpdate, updatedPlayerTO);
         playersManager.update(playerToUpdate);
         return Response.ok().build();
@@ -113,7 +132,12 @@ public class PlayersResource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteResource(@PathParam("id") long id) throws EntityNotFoundException {
+    public Response deleteResource(@PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret)
+            throws EntityNotFoundException, LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        if(playersManager.findById(id).getApplication() != application)
+            throw new EntityNotFoundException();
+        
         playersManager.delete(id);
         return Response.ok().build();
     }

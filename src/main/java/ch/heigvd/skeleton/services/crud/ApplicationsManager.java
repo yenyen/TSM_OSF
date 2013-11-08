@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Player;
 import java.util.List;
@@ -31,8 +32,23 @@ public class ApplicationsManager extends AbstractManager<Application> implements
 	@Override
 	public TypedQuery<Application> createNamedQuery(NamedQuery argv) {
 		if(argv==NamedQuery.findAll)
-			return createNamedQuery("findAllApplications") ;
+                    return createNamedQuery("findAllApplications");
+                else if(argv==NamedQuery.findByKeyAndSecret)
+                    return createNamedQuery("findApplicaitonByKeyAndSecret");
+                
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-
+        
+        @Override
+        public Application login(String apiKey, String apiSecret) throws LoginFailedException {
+            Application application = createNamedQuery(NamedQuery.findByKeyAndSecret)
+                    .setParameter("apiKey", apiKey)
+                    .setParameter("apiSecret", apiSecret)              
+                    .getSingleResult();
+            
+            if(application == null)
+                throw new LoginFailedException();
+            
+            return application;    
+        }
 }

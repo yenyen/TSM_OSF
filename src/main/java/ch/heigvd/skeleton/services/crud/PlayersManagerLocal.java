@@ -7,6 +7,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.model.Player;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,4 +16,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface PlayersManagerLocal extends AbstractManagerLocal<Player> {
+    List<Player> findTopPlayers(long applicationId, int top);
 }

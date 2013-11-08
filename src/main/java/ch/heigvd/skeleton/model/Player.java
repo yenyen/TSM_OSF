@@ -22,14 +22,19 @@ import javax.persistence.OneToMany;
  *
  * @author Olivier Liechti
  */
-@NamedQueries(
-				@NamedQuery(
-								name = "findAllPlayers",
-								query = "SELECT e FROM Player e"
-				)
-)
+@NamedQueries({
+        @NamedQuery(
+                                        name = "findAllPlayers",
+                                        query = "SELECT e FROM Player e where e.application.id = :applicationId"
+        ),
+        @NamedQuery(
+                                        name = "findAllPlayersOrderByPoints",
+                                        query = "SELECT e FROM Player e orderby e.numberOfPoints where e.application.id = :applicationId"
+        )
+})
+
 @Entity
-public class Player extends AbstractModel {
+public class Player extends AbstractLinkApplicationModel {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -42,21 +47,22 @@ public class Player extends AbstractModel {
 	private Set<Badge> badges;
 
 	public Player() {
-		this(null, null, null, 0);
+            this(null, null, null, null, 0);
 	}
 	public Player(Player player) {
-		this(player.firstName, player.lastName, player.email, player.numberOfPoints);
+            this(player.getApplication(), player.firstName, player.lastName, player.email, player.numberOfPoints);
 	}
 
-	public Player(String firstName, String lastName, String email, int numberOfPoints) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.numberOfPoints = numberOfPoints;
+	public Player(Application application, String firstName, String lastName, String email, int numberOfPoints) {
+            super(application);
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.numberOfPoints = numberOfPoints;
 	}
 
 	public String getFirstName() {
-		return firstName;
+            return firstName;
 	}
 
 	public void setFirstName(String firstName) {

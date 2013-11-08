@@ -1,5 +1,7 @@
 package ch.heigvd.skeleton.to;
 
+import ch.heigvd.skeleton.model.Player;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -17,19 +19,47 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Olivier Liechti
  */
 @XmlRootElement
-public class PublicBadgeTO extends AbstractPublicTO {
+public class PublicLeaderboardTO {
     private String name;
     private String description;
-    private String icon;
-
-    public PublicBadgeTO(){ 
-    }
+    private Ranking[] rankings;
     
-    public PublicBadgeTO(long id, String name, String description, String icon) {
-        super(id);
+    public class Ranking {
+        private long playerId;
+        private int points;
+
+        public Ranking(long playerId, int points) {
+            this.playerId = playerId;
+            this.points = points;
+        }
+
+        public long getPlayerId() {
+            return playerId;
+        }
+
+        public void setPlayerId(long playerId) {
+            this.playerId = playerId;
+        }
+
+        public int getPoints() {
+            return points;
+        }
+
+        public void setPoints(int points) {
+            this.points = points;
+        }
+    }
+
+    public PublicLeaderboardTO(){ 
+    }
+
+    public PublicLeaderboardTO(String name, String description, List<Player> players) {
+        rankings = new Ranking[players.size()];
+        for(int i = 0; i < players.size(); i++) {
+            rankings[i] = new Ranking(players.get(i).getId(), players.get(i).getNumberOfPoints());
+        }
         this.name = name;
         this.description = description;
-        this.icon = icon;
     }
 
     public String getName() {
@@ -48,11 +78,11 @@ public class PublicBadgeTO extends AbstractPublicTO {
         this.description = description;
     }
 
-    public String getIcon() {
-        return icon;
+    public Ranking[] getRankings() {
+        return rankings;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setRankings(Ranking[] rankings) {
+        this.rankings = rankings;
     }
 }

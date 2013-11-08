@@ -19,27 +19,28 @@ import javax.persistence.NamedQuery;
  */
 @NamedQueries(
 	@NamedQuery(
-					name = "findAllBadges",
-					query = "SELECT e FROM Badge e"
+            name = "findAllBadges",
+            query = "SELECT b FROM Badge b where b.application.id = :applicationId"
 	)
 )
 
 @Entity
-public class Badge extends AbstractModel implements Serializable {
+public class Badge extends AbstractLinkApplicationModel implements Serializable {
     private static final long serialVersionUID = 1L;
     private String name;
     private String description;
     private String icon;
     
     public Badge(){
-        this(null, null, null);
+        this(null, null, null, null);
     }
     
     public Badge(Badge badge){
-        this(badge.name, badge.description, badge.icon);
+        this(badge.getApplication(), badge.name, badge.description, badge.icon);
     }
 
-    public Badge(String name, String description, String icon) {
+    public Badge(Application application, String name, String description, String icon) {
+        super(application);
         this.name = name;
         this.description = description;
         this.icon = icon;

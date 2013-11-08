@@ -12,7 +12,7 @@ import javax.ejb.Stateless;
 public class ApplicationsTOService implements ApplicationsTOServiceLocal {
     @Override
     public PublicApplicationTO buildPublicApplicationTO(Application source) {
-        PublicApplicationTO to = new PublicApplicationTO(source.getId(), source.getName(), source.getDescription(), source.getApiKey(), "secret");
+        PublicApplicationTO to = new PublicApplicationTO(source.getId(), source.getName(), source.getDescription(), source.getApiKey(), "******");
         return to;
     }
 
@@ -21,6 +21,7 @@ public class ApplicationsTOService implements ApplicationsTOServiceLocal {
         existingEntity.setDescription(newState.getDescription());
         existingEntity.setName(newState.getName());
         existingEntity.setApiSecret(newState.getApiSecret());
+        existingEntity.setApiSecret(newState.getApiKey());
     }
     
 }

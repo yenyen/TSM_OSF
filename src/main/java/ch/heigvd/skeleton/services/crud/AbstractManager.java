@@ -16,7 +16,10 @@ import javax.persistence.TypedQuery;
 public abstract class AbstractManager<T extends AbstractModel> implements AbstractManagerLocal<T> {
 	
 	public enum NamedQuery{
-		findAll
+		findAll,
+                findAllOrderByPoints, 
+                findByType,
+                findByKeyAndSecret
 	}
 
 	@PersistenceContext(unitName = "ch.heigvd_Skeleton_war_1.0-SNAPSHOTPU")
@@ -63,6 +66,14 @@ public abstract class AbstractManager<T extends AbstractModel> implements Abstra
 	@Override
 	public List<T> findAll() {
 		List l = createNamedQuery(NamedQuery.findAll).getResultList();
+		return l;
+	}
+        
+        @Override
+	public List<T> findAll(long applicationId) {
+		List l = createNamedQuery(NamedQuery.findAll)
+                        .setParameter("applicationId", applicationId)
+                        .getResultList();
 		return l;
 	}
 }

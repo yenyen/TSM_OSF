@@ -1,6 +1,8 @@
 package ch.heigvd.skeleton.services.crud;
 
+import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
 import ch.heigvd.skeleton.model.Event;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
@@ -13,6 +15,9 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class EventsManager extends AbstractManager<Event> implements EventsManagerLocal {
 
+        @EJB
+        RulesManagerLocal rulesManager;
+        
 	@Override
 	public Event newEntity(Event m) {
 		return new Event(m);
@@ -27,7 +32,18 @@ public class EventsManager extends AbstractManager<Event> implements EventsManag
 	public TypedQuery<Event> createNamedQuery(NamedQuery argv) {
 		if(argv==NamedQuery.findAll)
 			return createNamedQuery("findAllEvents") ;
+
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+        
+        @Override
+	public long create(Event m) {
+            try {
+                rulesManager.notifyEvent(m);
+                return super.create(m);
+            } catch (EntityNotFoundException ex) {
+                return -1;
+            }
 	}
 
 }

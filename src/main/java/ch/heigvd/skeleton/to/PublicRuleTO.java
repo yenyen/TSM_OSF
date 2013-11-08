@@ -17,42 +17,42 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Olivier Liechti
  */
 @XmlRootElement
-public class PublicBadgeTO extends AbstractPublicTO {
-    private String name;
-    private String description;
-    private String icon;
+public class PublicRuleTO extends AbstractPublicTO {
+    private String  onEventType;
+    private int numberOfPoints;
+    private long badgeId;
 
-    public PublicBadgeTO(){ 
+    public PublicRuleTO() {
     }
-    
-    public PublicBadgeTO(long id, String name, String description, String icon) {
+
+    public PublicRuleTO(long id, String onEventType, int numberOfPoints, long badgeId) {
         super(id);
-        this.name = name;
-        this.description = description;
-        this.icon = icon;
+        this.onEventType = onEventType;
+        this.numberOfPoints = numberOfPoints;
+        this.badgeId = badgeId;
     }
 
-    public String getName() {
-        return name;
+    public String getOnEventType() {
+        return onEventType;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOnEventType(String onEventType) {
+        this.onEventType = onEventType;
     }
 
-    public String getDescription() {
-        return description;
+    public int getNumberOfPoints() {
+        return numberOfPoints;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNumberOfPoints(int numberOfPoints) {
+        this.numberOfPoints = numberOfPoints;
     }
 
-    public String getIcon() {
-        return icon;
+    public long getBadgeId() {
+        return badgeId;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setBadgeId(long badgeId) {
+        this.badgeId = badgeId;
     }
 }

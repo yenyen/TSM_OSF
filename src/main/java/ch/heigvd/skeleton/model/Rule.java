@@ -8,9 +8,6 @@ package ch.heigvd.skeleton.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -18,19 +15,21 @@ import javax.persistence.NamedQuery;
  *
  * @author aurelien
  */
-@NamedQueries(
-	@NamedQuery(
-					name = "findAllRules",
-					query = "SELECT e FROM Rule e"
-	)
-)
+@NamedQueries({      
+    @NamedQuery(
+        name = "findAllRules",
+        query = "SELECT r FROM Rule r where e.application.id = :applicationId"
+    ),
+    @NamedQuery(
+        name = "findRulesByType",
+        query = "SELEC r FROM Rule where e.application.id = :applicationId and r.onEventType = :onEventType"
+    )
+})
 
 @Entity
-public class Rule implements Serializable {
+public class Rule extends AbstractLinkApplicationModel implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+
     private String  onEventType;
     private int numberOfPoints;
     private Badge badge;
@@ -39,26 +38,15 @@ public class Rule implements Serializable {
     }
     
     public Rule(Rule rule) {
-        badge = rule.badge;
-        onEventType = rule.onEventType;
-        numberOfPoints = rule.numberOfPoints;
+        this(rule.getApplication(), rule.onEventType, rule.numberOfPoints, rule.badge);
     }
     
-    public Rule(String onEventType, int numberOfPoints, Badge badge) {
+    public Rule(Application application, String onEventType, int numberOfPoints, Badge badge) {
         this.onEventType = onEventType;
         this.numberOfPoints = numberOfPoints;
         this.badge = badge;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    
     public String getOnEventType() {
         return onEventType;
     }
@@ -84,28 +72,11 @@ public class Rule implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Rule)) {
-            return false;
-        }
-        Rule other = (Rule) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+            // TODO: Warning - this method won't work in the case the id fields are not set
+            if (!(object instanceof Rule)) {
+                    return false;
+            }
+            return super.equals(object);
     }
-
-    @Override
-    public String toString() {
-        return "ch.heigvd.skeleton.model.Rule[ id=" + id + " ]";
-    }
-    
 }

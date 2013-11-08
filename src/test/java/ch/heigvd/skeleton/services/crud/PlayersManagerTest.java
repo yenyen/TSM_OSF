@@ -58,7 +58,7 @@ public class PlayersManagerTest {
 	 *
 	 * @throws java.lang.Exception
 	 */
-	@Test
+	//@Test
 	public void testCreateNamedQuery_String() throws Exception {
 		System.out.println("createNamedQuery");
 		String query = "";
@@ -72,21 +72,33 @@ public class PlayersManagerTest {
 		logger.info(l.toString());
 
 	}
+	@Test
+	public void testLookupPlayersManagerBean() throws Exception {
+		System.out.println("lookupPlayersManagerBean");
+		try{
+			PlayersManager instance = lookupPlayersManagerBean();
+			assertNotNull(instance);
+		}catch(Exception ex){
+			logger.info(ex.toString());
+		}
+
+	}
 	EJBContainer container = null;
 
 	private EJBContainer getContainer() {
 		if (container != null) {
 			return container;
 		}
-//		// Create a properties map to pass to the embeddable container:
-//		Map<String, Object> properties = new HashMap<String, Object>();
-//		// Use the MODULES property to specify the set of modules to be initialized,
-//		// in this case a java.io.File 
-//		properties.put(EJBContainer.MODULES, new File("build/jar"));
-//
-//		// Create the container instance, passing it the properties map:
-//		container = javax.ejb.embeddable.EJBContainer.createEJBContainer(properties);
-		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		// Create a properties map to pass to the embeddable container:
+		Map<String, Object> properties = new HashMap<String, Object>();
+		// Use the MODULES property to specify the set of modules to be initialized,
+		// in this case a java.io.File 
+		properties.put(EJBContainer.MODULES, new File("build/jar"));
+		
+
+		// Create the container instance, passing it the properties map:
+		container = javax.ejb.embeddable.EJBContainer.createEJBContainer(properties);
+//		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 
 		return container;
 	}
@@ -95,7 +107,8 @@ public class PlayersManagerTest {
 		try {
 
 			Context c = getContainer().getContext();
-			return (PlayersManager) c.lookup("java:global/ch.heigvd_Skeleton_war_1.0-SNAPSHOT/PlayersManager!ch.heigvd.skeleton.services.crud.PlayersManager");
+			return (PlayersManager) c.lookup(PlayersManager.class.getName());
+			//return (PlayersManager) c.lookup("java:global/ch.heigvd_Skeleton_war_1.0-SNAPSHOT/PlayersManager!ch.heigvd.skeleton.services.crud.PlayersManager");
 		} catch (NamingException ne) {
 			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
 			throw new RuntimeException(ne);

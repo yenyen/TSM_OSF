@@ -12,6 +12,7 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<glassfish.embedded-static-shell.jar>/opt/glassfish/4.0/glassfish/lib/embedded/glassfish-embedded-static-shell.jar</glassfish.embedded-static-shell.jar>
     </properties>
     
     <dependencies>
@@ -43,7 +44,9 @@
             <groupId>org.glassfish.main.extras</groupId>
             <artifactId>glassfish-embedded-static-shell</artifactId>
             <version>4.0</version>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
+			<scope>system</scope>
+            <systemPath>${glassfish.embedded-static-shell.jar}</systemPath>		
         </dependency>
         <dependency>
             <groupId>javax</groupId>

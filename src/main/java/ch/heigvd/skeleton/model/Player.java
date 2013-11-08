@@ -2,12 +2,17 @@ package ch.heigvd.skeleton.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
  * This class is an example for a simple JPA entity. Notice that there is a
@@ -32,7 +37,9 @@ public class Player extends AbstractModel {
 	private String lastName;
 	private String email;
 	private int numberOfPoints;
-	private HashSet<Badge> badges;
+	@ManyToMany()
+	@JoinTable(name = "Player_Badge")
+	private Set<Badge> badges;
 
 	public Player() {
 		this(null, null, null, 0);
@@ -80,11 +87,11 @@ public class Player extends AbstractModel {
 		this.numberOfPoints = numberOfPoints;
 	}
 
-	public HashSet<Badge> getBadges() {
+	public Set<Badge> getBadges() {
 		return badges;
 	}
 
-	public void setBadges(HashSet<Badge> badges) {
+	public void setBadges(Set<Badge> badges) {
 		this.badges = badges;
 	}
 	

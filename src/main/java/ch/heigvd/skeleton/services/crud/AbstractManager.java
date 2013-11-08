@@ -18,7 +18,8 @@ public abstract class AbstractManager<T extends AbstractModel> implements Abstra
 	public enum NamedQuery{
 		findAll,
                 findAllOrderByPoints, 
-                findByType
+                findByType,
+                findByKeyAndSecret
 	}
 
 	@PersistenceContext(unitName = "ch.heigvd_Skeleton_war_1.0-SNAPSHOTPU")

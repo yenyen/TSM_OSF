@@ -6,6 +6,7 @@
 
 package ch.heigvd.skeleton.services.crud;
 
+import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.Application;
 import javax.ejb.Local;
 
@@ -15,4 +16,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface ApplicationsManagerLocal extends AbstractManagerLocal<Application> {
+    Application login(String apiKey, String apiSecret) throws LoginFailedException;
 }

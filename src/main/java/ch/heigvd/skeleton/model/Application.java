@@ -14,12 +14,16 @@ import javax.persistence.NamedQuery;
  *
  * @author aurelien
  */
-@NamedQueries(
+@NamedQueries({
 	@NamedQuery(
-					name = "findAllApplications",
-					query = "SELECT e FROM Player e"
-	)
-)
+            name = "findAllApplications",
+            query = "SELECT e FROM Application e"
+	),
+        @NamedQuery(
+            name = "findApplicaitonByKeyAndSecret",
+            query = "SELECT a FROM Application a where a.apiKey = :apiKey and a.apiSecret = :apiSecret"
+        )
+})
 @Entity
 public class Application extends AbstractModel {
     private static final long serialVersionUID = 1L;
@@ -83,6 +87,6 @@ public class Application extends AbstractModel {
             return false;
         }
         return super.equals(object);
-	}
+    }
     
 }

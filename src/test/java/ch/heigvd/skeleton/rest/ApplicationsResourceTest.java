@@ -69,7 +69,7 @@ public class ApplicationsResourceTest {
 		assertNotNull(o);
 	}	
 	
-	@Test
+	//@Test
 	public void test_REST_getForObject_String() throws Exception {
 		System.out.println("test_REST_getForEntity_String");
 		

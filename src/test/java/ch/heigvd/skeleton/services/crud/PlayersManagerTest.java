@@ -72,7 +72,7 @@ public class PlayersManagerTest {
 		logger.info(l.toString());
 
 	}
-	@Test
+	//@Test
 	public void testLookupPlayersManagerBean() throws Exception {
 		System.out.println("lookupPlayersManagerBean");
 		try{

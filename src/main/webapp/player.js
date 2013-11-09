@@ -5,7 +5,7 @@
  */
 
 
-	var baseURL="http://localhost:8080/thevoz-phanzu-gamification/api/";
+	var baseURL="http://localhost:8080/thevoz-phanzu-gamification/api";
     
 	
 	function ViewModel(){
@@ -27,7 +27,7 @@
 			$.ajax(
 				baseURL+"/players",
 				{
-					headers:{apiKey:'k', apiSecret:'k'},
+					headers:{apiKey:'1', apiSecret:'1'},
 					data:ko.toJSON(self.selected),
 					type:"post", contentType: "application/json",
 					success: function(result) { 
@@ -41,7 +41,7 @@
 			$.ajax(
 				baseURL+"/players",
 				{
-					headers:{apiKey:'k', apiSecret:'k'},
+					headers:{apiKey:'1', apiSecret:'1'},
 					type:"get", contentType: "application/json",
 					success: function(result) { 
 						//var x=new XMLHttpRequest();
@@ -51,7 +51,7 @@
 						//self.items=new Array();
 						self.items.removeAll();
 						//<?xml version="1.0" encoding="UTF-8" standalone="yes"?><publicApplicationTOes><publicApplicationTO><id>1</id><apiSecret>******</apiSecret><description>2</description><name>1</name></publicApplicationTO><publicApplicationTO><id>2</id><apiSecret>******</apiSecret><description>2</description><name>1</name></publicApplicationTO><publicApplicationTO><id>3</id><apiSecret>******</apiSecret><description>2</description><name>1</name></publicApplicationTO></publicApplicationTOes>
-						$(result).find('publicApplicationTO').each(function(){
+						$(result).find('publicPlayerTO').each(function(){
 							var m=this;
 							var o=$(m);
 							var n=self.createItem();

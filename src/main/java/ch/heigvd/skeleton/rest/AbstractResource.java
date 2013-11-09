@@ -8,6 +8,7 @@ package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.services.crud.ApplicationsManagerLocal;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;

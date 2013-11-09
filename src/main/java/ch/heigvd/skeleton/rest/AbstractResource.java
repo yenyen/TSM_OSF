@@ -18,10 +18,10 @@ import javax.ws.rs.core.UriInfo;
  * @author komanda.phanzu
  */
 public class AbstractResource {
-	@HeaderParam(value = "apiKey")
-	public String apiKey;
-	@HeaderParam(value = "apiSecret")
-	public String apiSecret;
+    @HeaderParam(value = "apiKey")
+    public String apiKey;
+    @HeaderParam(value = "apiSecret")
+    public String apiSecret;
 
     @Context
     public UriInfo context;

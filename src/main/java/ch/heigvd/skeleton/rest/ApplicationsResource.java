@@ -1,28 +1,26 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.*;
 import ch.heigvd.skeleton.services.crud.*;
 import ch.heigvd.skeleton.services.to.*;
 import ch.heigvd.skeleton.to.*;
 import java.net.URI;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * REST Web Service
@@ -31,14 +29,11 @@ import javax.ws.rs.core.SecurityContext;
  */
 @Stateless
 @Path("applications")
-public class ApplicationsResource {
+public class ApplicationsResource  {
 
-	Logger logger=Logger.getLogger(getClass().getName());
     @Context
-	private UriInfo context;
-	@Context
-	private SecurityContext securityContext;
-
+    private UriInfo context;
+    
     @EJB
     ApplicationsManagerLocal applicationsManager;
 
@@ -67,31 +62,6 @@ public class ApplicationsResource {
         return Response.created(createdURI).build();
     }
 
-    /**
-     * Retrieves a representation of a list of Employee resources
-     *
-     * @return an instance of PublicEmployeeTO
-     */
-    @GET
-    @Produces({"application/json", "application/xml"})
-    public List<PublicApplicationTO> getResourceList() {
-
-		if(securityContext!=null){
-			logger.info(String.format("%s -> %s", securityContext.getAuthenticationScheme(), securityContext.getUserPrincipal()));
-		}
-        List<Application> l = applicationsManager.findAll();
-		if(l==null){
-			logger.info("No result");
-		}else{
-			logger.info(String.format("Applications.count:%d", l.size()));
-		}
-        List<PublicApplicationTO> result = new LinkedList<PublicApplicationTO>();
-        for (Application dr : l) {
-			PublicApplicationTO o = applicationsTOService.buildPublicApplicationTO(dr);
-            result.add(o);
-        }
-        return result;
-    }
 
     /**
      * Retrieves representation of an Employee resource
@@ -101,8 +71,14 @@ public class ApplicationsResource {
     @GET
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
-    public PublicApplicationTO getResource(@PathParam("id") long id) throws EntityNotFoundException {
-        Application application = applicationsManager.findById(id);
+    public PublicApplicationTO getResource(@PathParam("id") long id, 
+            @HeaderParam(value = "apiKey") String apiKey, 
+            @HeaderParam(value = "apiSecret") String apiSecret) 
+            throws EntityNotFoundException, LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        if(application.getId() != id)
+            throw new EntityNotFoundException();
+            
         PublicApplicationTO applicationTO = applicationsTOService.buildPublicApplicationTO(application);
         return applicationTO;
     }
@@ -117,8 +93,16 @@ public class ApplicationsResource {
     @PUT
     @Path("{id}")
     @Consumes({"application/json"})
-    public Response Resource(PublicApplicationTO updatedApplicationTO, @PathParam("id") long id) throws EntityNotFoundException {
-        Application applicationToUpdate = applicationsManager.findById(id);
+    public Response Resource(PublicApplicationTO updatedApplicationTO, 
+            @PathParam("id") long id,
+            @HeaderParam(value = "apiKey") String apiKey, 
+            @HeaderParam(value = "apiSecret") String apiSecret) 
+            throws EntityNotFoundException, LoginFailedException {
+        Application applicationToUpdate = applicationsManager.login(apiKey, apiSecret);
+
+        if(id != applicationToUpdate.getId())
+            throw new EntityNotFoundException();
+            
         applicationsTOService.updateApplicationEntity(applicationToUpdate, updatedApplicationTO);
         applicationsManager.update(applicationToUpdate);
         return Response.ok().build();
@@ -131,7 +115,14 @@ public class ApplicationsResource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteResource(@PathParam("id") long id) throws EntityNotFoundException {
+    public Response deleteResource(@PathParam("id") long id,
+            @HeaderParam(value = "apiKey") String apiKey, 
+            @HeaderParam(value = "apiSecret") String apiSecret) 
+            throws EntityNotFoundException, LoginFailedException {
+        Application application = applicationsManager.login(apiKey, apiSecret);
+        if(id != application.getId())
+            throw new EntityNotFoundException();
+        
         applicationsManager.delete(id);
         return Response.ok().build();
     }

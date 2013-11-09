@@ -1,7 +1,9 @@
 package ch.heigvd.skeleton.services.to;
 
 import ch.heigvd.skeleton.model.Player;
+import ch.heigvd.skeleton.to.PublicBadgeTO;
 import ch.heigvd.skeleton.to.PublicPlayerTO;
+import ch.heigvd.skeleton.to.PublicPlayerWithBadgesTO;
 import javax.ejb.Local;
 
 /**
@@ -20,6 +22,8 @@ public interface PlayersTOServiceLocal {
 	 * @return the TO
 	 */
 	public PublicPlayerTO buildPublicPlayerTO(Player source);
+        
+        public PublicPlayerWithBadgesTO buildPublicPlayerWithBadgesTO(Player source, PublicBadgeTO[] badges);
 	
 	/**
 	 * This method updates an existing JPA entity by merging the state of the

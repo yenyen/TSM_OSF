@@ -3,10 +3,14 @@ package ch.heigvd.skeleton.rest;
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
 import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.Application;
+import ch.heigvd.skeleton.model.Badge;
 import ch.heigvd.skeleton.model.Player;
 import ch.heigvd.skeleton.services.crud.PlayersManagerLocal;
+import ch.heigvd.skeleton.services.to.BadgesTOServiceLocal;
 import ch.heigvd.skeleton.services.to.PlayersTOServiceLocal;
+import ch.heigvd.skeleton.to.PublicBadgeTO;
 import ch.heigvd.skeleton.to.PublicPlayerTO;
+import ch.heigvd.skeleton.to.PublicPlayerWithBadgesTO;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +39,9 @@ public class PlayersResource extends AbstractResource{
 
     @EJB
     PlayersTOServiceLocal playersTOService;
+    
+    @EJB
+    BadgesTOServiceLocal badgesTOService;
 
     /**
      * Creates a new instance of EmployeesResource
@@ -69,7 +76,6 @@ public class PlayersResource extends AbstractResource{
     @Produces({"application/json", "application/xml"})
     public List<PublicPlayerTO> getResourceList() throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
-		
 
         List<Player> players = playersManager.findAll(application.getId());
         List<PublicPlayerTO> result = new LinkedList<PublicPlayerTO>();
@@ -87,14 +93,20 @@ public class PlayersResource extends AbstractResource{
     @GET
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
-    public PublicPlayerTO getResource(@PathParam("id") long id) 
+    public PublicPlayerWithBadgesTO getResource(@PathParam("id") long id) 
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
 		playersManager.setApplication(application);
 		
         Player player = playersManager.findById(id);
-        PublicPlayerTO playerTO = playersTOService.buildPublicPlayerTO(player);
-        return playerTO;
+        PublicBadgeTO badgesTO[] = new PublicBadgeTO[player.getBadges().size()];
+        int i = 0;
+        for(Badge badge : player.getBadges()) {
+            badgesTO[i] = badgesTOService.buildPublicBadgeTO(badge);
+            i++;
+        }
+        
+        return playersTOService.buildPublicPlayerWithBadgesTO(player, badgesTO);
     }
 
     /**

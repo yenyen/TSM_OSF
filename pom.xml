@@ -10,9 +10,9 @@
     <name>thevoz-phanzu-gamification</name>
 
     <properties>
-		<!--<eclipselink.version>2.5.0-SNAPSHOT</eclipselink.version>-->
+		<eclipselink.version>2.5.0-SNAPSHOT</eclipselink.version>
 		<!--<eclipselink.version>2.5.0</eclipselink.version>-->
-		<eclipselink.version>2.5.1</eclipselink.version>
+		<!--<eclipselink.version>2.5.1</eclipselink.version>-->
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <glassfish.embedded-static-shell.jar>e:/sunapp/glassfish/4.0/glassfish/lib/embedded/glassfish-embedded-static-shell.jar</glassfish.embedded-static-shell.jar>

@@ -32,18 +32,8 @@ import javax.ws.rs.core.Response;
 @Stateless
 
 @Path("badges")
-public class BadgesResource {
-	@HeaderParam(value = "apiKey")
-	public String apiKey;
-	@HeaderParam(value = "apiSecret")
-	public String apiSecret;
-	
-    @Context
-    private UriInfo context;
+public class BadgesResource extends AbstractResource {
 
-    @EJB
-    ApplicationsManagerLocal applicationsManager;
-    
     @EJB
     BadgesManagerLocal badgesManager;
 

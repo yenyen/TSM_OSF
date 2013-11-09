@@ -28,14 +28,8 @@ import javax.ws.rs.core.Response;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("applications/{apiKey}/{apiSecret}/events")
-public class EventsResource {
-
-    @Context
-    private UriInfo context;
-
-    @EJB
-    ApplicationsManagerLocal applicationsManager;
+@Path("events")
+public class EventsResource extends AbstractResource {
         
     @EJB
     EventsManagerLocal eventsManager;
@@ -57,7 +51,7 @@ public class EventsResource {
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicEventTO newTO, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret)
+    public Response createResource(PublicEventTO newTO)
             throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         
@@ -77,7 +71,7 @@ public class EventsResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public List<PublicEventTO> getResourceList(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+    public List<PublicEventTO> getResourceList() 
             throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         List<Event> events = eventsManager.findAll(application.getId());
@@ -96,7 +90,7 @@ public class EventsResource {
     @GET
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
-    public PublicEventTO getResource(@PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+    public PublicEventTO getResource(@PathParam("id") long id) 
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Event event = eventsManager.findById(id);
@@ -116,7 +110,7 @@ public class EventsResource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteResource(@PathParam("id") long id, @PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret)
+    public Response deleteResource(@PathParam("id") long id)
             throws EntityNotFoundException, LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         if(eventsManager.findById(id).getApplication() != application)

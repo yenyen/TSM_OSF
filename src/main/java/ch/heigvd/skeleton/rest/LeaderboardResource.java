@@ -21,14 +21,8 @@ import javax.ws.rs.Produces;
  * @author Olivier Liechti
  */
 @Stateless
-@Path("applications/{apiKey}/{apiSecret}/leaderboard")
-public class LeaderboardResource {
-
-    @Context
-    private UriInfo context;
-    
-    @EJB
-    ApplicationsManagerLocal applicationsManager;
+@Path("leaderboard")
+public class LeaderboardResource extends AbstractResource {
 
     @EJB
     PlayersManagerLocal playersManager;
@@ -50,7 +44,7 @@ public class LeaderboardResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public PublicLeaderboardTO getResourceList(@PathParam("apiKey") String apiKey, @PathParam("apiSecret") String apiSecret) 
+    public PublicLeaderboardTO getResourceList() 
             throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         List<Player> players = playersManager.findTopPlayers(application.getId(), 5);

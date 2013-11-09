@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class PublicEventTO extends AbstractPublicTO {
-    private long applicationId;
     private long playerId;
     private String type;
     private Timestamp timestamp;
@@ -27,20 +26,11 @@ public class PublicEventTO extends AbstractPublicTO {
     public PublicEventTO(){ 
     }
 
-    public PublicEventTO(long id, long applicationId, long playerId, String type, Timestamp timestamp) {
+    public PublicEventTO(long id, long playerId, String type, Timestamp timestamp) {
         super(id);
-        this.applicationId = applicationId;
         this.playerId = playerId;
         this.type = type;
         this.timestamp = timestamp;
-    }
-
-    public long getApplicationId() {
-        return applicationId;
-    }
-
-    public void setApplicationId(long applicationId) {
-        this.applicationId = applicationId;
     }
 
     public long getPlayerId() {

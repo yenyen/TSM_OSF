@@ -45,6 +45,7 @@ public class Rule extends AbstractLinkApplicationModel implements Serializable {
         this.onEventType = onEventType;
         this.numberOfPoints = numberOfPoints;
         this.badge = badge;
+        setApplication(application);
     }
 
     public String getOnEventType() {

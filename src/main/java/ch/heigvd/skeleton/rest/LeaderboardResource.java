@@ -44,7 +44,7 @@ public class LeaderboardResource extends AbstractResource {
      */
     @GET
     @Produces({"application/json", "application/xml"})
-    public PublicLeaderboardTO getResourceList() 
+    public PublicLeaderboardTO getResource() 
             throws LoginFailedException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         List<Player> players = playersManager.findTopPlayers(application.getId(), 5);

@@ -22,41 +22,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PublicLeaderboardTO {
     private String name;
     private String description;
-    private Ranking[] rankings;
-    
-    public class Ranking {
-        private long playerId;
-        private int points;
-
-        public Ranking(long playerId, int points) {
-            this.playerId = playerId;
-            this.points = points;
-        }
-
-        public long getPlayerId() {
-            return playerId;
-        }
-
-        public void setPlayerId(long playerId) {
-            this.playerId = playerId;
-        }
-
-        public int getPoints() {
-            return points;
-        }
-
-        public void setPoints(int points) {
-            this.points = points;
-        }
-    }
-
+    private PublicRankingTO[] rankings;
+   
     public PublicLeaderboardTO(){ 
     }
 
     public PublicLeaderboardTO(String name, String description, List<Player> players) {
-        rankings = new Ranking[players.size()];
+        rankings = new PublicRankingTO[players.size()];
         for(int i = 0; i < players.size(); i++) {
-            rankings[i] = new Ranking(players.get(i).getId(), players.get(i).getNumberOfPoints());
+            rankings[i] = new PublicRankingTO(players.get(i).getId(), players.get(i).getNumberOfPoints());
         }
         this.name = name;
         this.description = description;
@@ -78,11 +52,11 @@ public class PublicLeaderboardTO {
         this.description = description;
     }
 
-    public Ranking[] getRankings() {
+    public PublicRankingTO[] getRankings() {
         return rankings;
     }
 
-    public void setRankings(Ranking[] rankings) {
+    public void setRankings(PublicRankingTO[] rankings) {
         this.rankings = rankings;
     }
 }

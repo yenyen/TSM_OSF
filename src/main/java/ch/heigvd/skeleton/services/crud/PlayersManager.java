@@ -37,7 +37,7 @@ public class PlayersManager extends AbstractManager<Player> implements PlayersMa
        public List<Player> findTopPlayers(long applicationId, int top) {
 		List l = createNamedQuery(NamedQuery.findAllOrderByPoints)
                         .setParameter("applicationId", applicationId)
-                        .setFirstResult(top)
+                        .setMaxResults(5)
                         .getResultList();
 		return l;
 	}

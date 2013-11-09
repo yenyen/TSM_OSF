@@ -101,23 +101,4 @@ public class EventsResource extends AbstractResource {
         PublicEventTO eventTO = eventsTOService.buildPublicEventTO(event);
         return eventTO;
     }
-
-
-    /**
-     * Deletes an Event resource
-     *
-     * @return an instance of PublicEventTO
-     */
-    @DELETE
-    @Path("{id}")
-    public Response deleteResource(@PathParam("id") long id)
-            throws EntityNotFoundException, LoginFailedException {
-        Application application = applicationsManager.login(apiKey, apiSecret);
-        if(eventsManager.findById(id).getApplication() != application)
-            throw new EntityNotFoundException();
-        
-        eventsManager.delete(id);
-        return Response.ok().build();
-    }
-
 }

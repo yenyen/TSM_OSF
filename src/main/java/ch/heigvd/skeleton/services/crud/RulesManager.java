@@ -45,6 +45,7 @@ public class RulesManager extends AbstractManager<Rule> implements RulesManagerL
         @Override
         public void notifyEvent(Event event) throws EntityNotFoundException {
             List<Rule> rules = createNamedQuery(NamedQuery.findByType)
+                    .setParameter("applicationId", event.getApplication().getId())
                     .setParameter("onEventType", event.getType())
                     .getResultList();
             

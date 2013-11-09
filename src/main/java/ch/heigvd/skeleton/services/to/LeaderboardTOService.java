@@ -13,7 +13,6 @@ import javax.ejb.Stateless;
 public class LeaderboardTOService implements LeaderboardTOServiceLocal {
     @Override
     public PublicLeaderboardTO buildPublicLeaderboardTO(String name, String description,  List<Player> players) {       
-        PublicLeaderboardTO to = new PublicLeaderboardTO(name, description,  players);
-        return to;
+        return new PublicLeaderboardTO(name, description,  players);
     }
 }

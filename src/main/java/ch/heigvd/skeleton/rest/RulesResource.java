@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Rule;
@@ -49,8 +50,8 @@ public class RulesResource extends AbstractResource {
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicRuleTO newRuleTO) 
-            throws LoginFailedException {
+    public Response createResource(PublicRuleTO newRuleTO)
+            throws LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Rule newRule = new Rule();
         rulesTOService.updateRuleEntity(newRule, newRuleTO);
@@ -87,7 +88,7 @@ public class RulesResource extends AbstractResource {
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
     public PublicRuleTO getResource(@PathParam("id") long id)
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Rule rule = rulesManager.findById(id);
         if(rule.getApplication() != application)
@@ -106,7 +107,7 @@ public class RulesResource extends AbstractResource {
     @Path("{id}")
     @Consumes({"application/json"})
     public Response Resource(PublicRuleTO updatedRuleTO, @PathParam("id") long id) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Rule ruleToUpdate = rulesManager.findById(id);
         if(ruleToUpdate.getApplication() != application)
@@ -125,7 +126,7 @@ public class RulesResource extends AbstractResource {
     @DELETE
     @Path("{id}")
     public Response deleteResource(@PathParam("id") long id) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException{
         Application application = applicationsManager.login(apiKey, apiSecret);
         if(rulesManager.findById(id).getApplication() != application)
             throw new EntityNotFoundException();

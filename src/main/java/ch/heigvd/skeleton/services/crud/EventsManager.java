@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.model.Event;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,7 +38,7 @@ public class EventsManager extends AbstractManager<Event> implements EventsManag
 	}
         
         @Override
-	public long create(Event m) {
+	public long create(Event m) throws InvalidOperationException {
             try {
                 rulesManager.notifyEvent(m);
                 return super.create(m);

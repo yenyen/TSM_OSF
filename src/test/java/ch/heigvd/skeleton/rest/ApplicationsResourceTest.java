@@ -47,27 +47,27 @@ public class ApplicationsResourceTest {
 	public void tearDown() {
 	}
 	
-	//@Test
-	public void test_REST_getForEntity() throws Exception {
-		System.out.println("test_REST_GetResourceList");
-		
-		RestTemplate template=new RestTemplate();
-		ResponseEntity<PublicApplicationTO> re = template.getForEntity("http://localhost:8080/thevoz-phanzu-gamification/api/applications", PublicApplicationTO.class);
-		assertNotNull(re);
-		PublicApplicationTO o = re.getBody();
-		assertNotNull(o);
-	}
-	
-	//@Test
-	public void test_REST_getForEntity_String() throws Exception {
-		System.out.println("test_REST_getForEntity_String");
-		
-		RestTemplate template=new RestTemplate();
-		ResponseEntity<String> re = template.getForEntity("http://localhost:8080/thevoz-phanzu-gamification/api/applications", String.class);
-		assertNotNull(re);
-		String o = re.getBody();
-		assertNotNull(o);
-	}	
+//	//@Test
+//	public void test_REST_getForEntity() throws Exception {
+//		System.out.println("test_REST_GetResourceList");
+//		
+//		RestTemplate template=new RestTemplate();
+//		ResponseEntity<PublicApplicationTO> re = template.getForEntity("http://localhost:8080/thevoz-phanzu-gamification/api/applications", PublicApplicationTO.class);
+//		assertNotNull(re);
+//		PublicApplicationTO o = re.getBody();
+//		assertNotNull(o);
+//	}
+//	
+//	//@Test
+//	public void test_REST_getForEntity_String() throws Exception {
+//		System.out.println("test_REST_getForEntity_String");
+//		
+//		RestTemplate template=new RestTemplate();
+//		ResponseEntity<String> re = template.getForEntity("http://localhost:8080/thevoz-phanzu-gamification/api/applications", String.class);
+//		assertNotNull(re);
+//		String o = re.getBody();
+//		assertNotNull(o);
+//	}	
 	
 	//@Test
 	public void test_REST_getForObject_String() throws Exception {

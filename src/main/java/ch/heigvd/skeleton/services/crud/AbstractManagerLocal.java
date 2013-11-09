@@ -7,6 +7,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.model.AbstractModel;
 import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Player;
@@ -21,13 +22,13 @@ import javax.ejb.Local;
 public interface AbstractManagerLocal<T extends AbstractModel> {
 
 	void setApplication(Application app);
-	long create(T player);
+	long create(T player)throws InvalidOperationException;
 
-	void update(T newState) throws EntityNotFoundException;
+	void update(T newState) throws EntityNotFoundException, InvalidOperationException;
 
-	void delete(long id) throws EntityNotFoundException;
+	void delete(long id) throws EntityNotFoundException, InvalidOperationException;
 
-	T findById(long id) throws EntityNotFoundException;
+	T findById(long id) throws EntityNotFoundException, InvalidOperationException;
 
 	List<T> findAll();
         

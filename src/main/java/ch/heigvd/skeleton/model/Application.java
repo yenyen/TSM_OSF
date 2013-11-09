@@ -20,8 +20,12 @@ import javax.persistence.NamedQuery;
             query = "SELECT e FROM Application e"
 	),
         @NamedQuery(
-            name = "findApplicaitonByKeyAndSecret",
+            name = "findApplicationByKeyAndSecret",
             query = "SELECT a FROM Application a where a.apiKey = :apiKey and a.apiSecret = :apiSecret"
+        ),
+        @NamedQuery(
+            name = "findApplicationByKey",
+            query = "SELECT a FROM Application a where a.apiKey = :apiKey"
         )
 })
 @Entity

@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.*;
 import ch.heigvd.skeleton.services.crud.*;
@@ -54,7 +55,7 @@ public class ApplicationsResource  {
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicApplicationTO newTO) {
+    public Response createResource(PublicApplicationTO newTO) throws InvalidOperationException {
         Application application = new Application();
         applicationsTOService.updateApplicationEntity(application, newTO);
         long newApplicationId = applicationsManager.create(application);
@@ -97,7 +98,7 @@ public class ApplicationsResource  {
             @PathParam("id") long id,
             @HeaderParam(value = "apiKey") String apiKey, 
             @HeaderParam(value = "apiSecret") String apiSecret) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application applicationToUpdate = applicationsManager.login(apiKey, apiSecret);
 
         if(id != applicationToUpdate.getId())
@@ -118,7 +119,7 @@ public class ApplicationsResource  {
     public Response deleteResource(@PathParam("id") long id,
             @HeaderParam(value = "apiKey") String apiKey, 
             @HeaderParam(value = "apiSecret") String apiSecret) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         if(id != application.getId())
             throw new EntityNotFoundException();

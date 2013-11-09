@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.model.Event;
 import ch.heigvd.skeleton.model.Player;
 import ch.heigvd.skeleton.model.Rule;
@@ -43,7 +44,7 @@ public class RulesManager extends AbstractManager<Rule> implements RulesManagerL
 	}
 
         @Override
-        public void notifyEvent(Event event) throws EntityNotFoundException {
+        public void notifyEvent(Event event) throws EntityNotFoundException, InvalidOperationException {
             List<Rule> rules = createNamedQuery(NamedQuery.findByType)
                     .setParameter("applicationId", event.getApplication().getId())
                     .setParameter("onEventType", event.getType())

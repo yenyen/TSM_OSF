@@ -35,9 +35,14 @@ public class ApplicationsManager extends AbstractManager<Application> implements
 	@Override
 	public long create(Application m)throws InvalidOperationException {
 		Application o = null;
-		try{
-			o = findByKeyAndSecret(m.getApiKey(), m.getApiSecret());
-		}catch(Exception){}
+		try {
+                    o = createNamedQuery(NamedQuery.findByKey)
+                            .setParameter("apiKey", m.getApiKey())
+                            .getSingleResult();
+		}
+                catch(Exception e)
+                {
+                }
 		
 		if(o!=null)
 			throw new InvalidOperationException(InvalidOperationException.OperationEnum.Create);
@@ -51,26 +56,25 @@ public class ApplicationsManager extends AbstractManager<Application> implements
 		if(argv==NamedQuery.findAll)
                     return createNamedQuery("findAllApplications");
                 else if(argv==NamedQuery.findByKeyAndSecret)
-                    return createNamedQuery("findApplicaitonByKeyAndSecret");
+                    return createNamedQuery("findApplicationByKeyAndSecret");
+                else if(argv == NamedQuery.findByKey)
+                    return createNamedQuery("findApplicationByKey");
                 
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-	public Application findByKeyAndSecret(String apiKey, String apiSecret){
-				return createNamedQuery(NamedQuery.findByKeyAndSecret)
-						.setParameter("apiKey", apiKey)
-						.setParameter("apiSecret", apiSecret)              
-						.getSingleResult();
 	}
         
         @Override
         public Application login(String apiKey, String apiSecret) throws LoginFailedException {
 			Application application = null;
-			try{
-				logger.info(String.format("login(%s, %s)", apiKey, apiSecret));
-				application = findByKeyAndSecret(apiKey, apiSecret);
-			}catch(javax.persistence.NoResultException e){
-				throw new LoginFailedException(e);
-			}
+            try{
+                    logger.info(String.format("login(%s, %s)", apiKey, apiSecret));
+                    application = createNamedQuery(NamedQuery.findByKeyAndSecret)
+						.setParameter("apiKey", apiKey)
+						.setParameter("apiSecret", apiSecret)              
+						.getSingleResult();
+            }catch(javax.persistence.NoResultException e){
+                    throw new LoginFailedException(e);
+            }
             
             if(application == null)
                 throw new LoginFailedException();

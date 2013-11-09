@@ -7,6 +7,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.model.Event;
 import ch.heigvd.skeleton.model.Rule;
 import javax.ejb.Local;
@@ -17,5 +18,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface RulesManagerLocal extends AbstractManagerLocal<Rule> {
-    public void notifyEvent(Event event) throws EntityNotFoundException ;
+    public void notifyEvent(Event event) throws EntityNotFoundException, InvalidOperationException ;
 }

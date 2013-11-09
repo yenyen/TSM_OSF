@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Badge;
@@ -56,7 +57,7 @@ public class PlayersResource extends AbstractResource{
      */
     @POST
     @Consumes({"application/json"})
-    public Response createResource(PublicPlayerTO newPlayerTO) throws LoginFailedException {
+    public Response createResource(PublicPlayerTO newPlayerTO) throws LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         
         Player newPlayer = new Player();
@@ -94,7 +95,7 @@ public class PlayersResource extends AbstractResource{
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
     public PublicPlayerWithBadgesTO getResource(@PathParam("id") long id) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
 		playersManager.setApplication(application);
 		
@@ -118,7 +119,7 @@ public class PlayersResource extends AbstractResource{
     @Path("{id}")
     @Consumes({"application/json"})
     public Response Resource(@PathParam("id") long id, PublicPlayerTO updatedPlayerTO) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         
         Player playerToUpdate = playersManager.findById(id);
@@ -138,7 +139,7 @@ public class PlayersResource extends AbstractResource{
     @DELETE
     @Path("{id}")
     public Response deleteResource(@PathParam("id") long id)
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         if(playersManager.findById(id).getApplication() != application)
             throw new EntityNotFoundException();

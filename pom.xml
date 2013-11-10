@@ -34,12 +34,14 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>
+<!--
+        <dependency>
             <groupId>ch.heigvd</groupId>
             <artifactId>Skeleton</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>-->
+        </dependency>
+-->
         <dependency>
             <groupId>org.glassfish.main.extras</groupId>
             <artifactId>glassfish-embedded-static-shell</artifactId>

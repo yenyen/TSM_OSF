@@ -1,11 +1,11 @@
-TSM_OSF - Gamification API
+Gamification API
 ==========================
 
 This is the main repository for the Gamification API project.
 
 This API has build to give you a simple way to add gamification to your project. You can manage players and give points   and badges to players when some events raises.
   
-#Documentation
+##Documentation
 
 You can find how the API should be use in this file : [apiary.io.txt](https://github.com/yenyen/TSM_OSF/blob/master/docs/apiary.io.txt) or [http://docs.aurelienthevoz.apiary.io](http://docs.aurelienthevoz.apiary.io/)
 

@@ -9,4 +9,4 @@ This API has build to give you a simple way to add gamification to your project.
 
 You can find how the API should be use in this file : [apiary.io.txt](https://github.com/yenyen/TSM_OSF/blob/master/docs/apiary.io.txt) or [http://docs.aurelienthevoz.apiary.io](http://docs.aurelienthevoz.apiary.io/)
 
-You can find a complete documentation of the code is in this file (in french) : [Rapport.docx](https://github.com/yenyen/TSM_OSF/blob/master/docs/Rapport.docx?raw=true)
+You can find a complete documentation of the code in this file (in french) : [Rapport.docx](https://github.com/yenyen/TSM_OSF/blob/master/docs/Rapport.docx?raw=true)

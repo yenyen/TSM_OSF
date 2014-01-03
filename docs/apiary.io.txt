@@ -1,0 +1,307 @@
+--- Gamification API ---
+
+--
+Gamification Engine Space
+The following is a section of resources related to the Gamification Engine Space
+--
+
+Add a new application
+POST /application
+> Content-Type: application/json
+{ 
+    "name":"", 
+    "description":"", 
+    "apiKey":"",
+    "apiSecret":"" 
+}
+< 201
+< Content-Type: application/json
+{ "status": "created", "url": "/application/{id}" }
+
+Get application
+GET /application/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{ 
+    "name":"", 
+    "description":"", 
+    "apiKey": "", 
+}
+
+Update application information
+PUT /application/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+> Content-Type: application/json
+{ 
+    "name":"", 
+    "description":"",
+    "apiKey":""
+    "apiSecret":"" 
+}
+< 200
+
+
+Delete an application
+DELETE /application/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+
+
+Get list of players
+GET /players
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "items": [
+        "id":,
+        "firstName": "",
+        "lastName": "",
+        "email": "",
+        "numberOfPoints": 
+    ]
+}
+
+Add a new player
+POST /players
+> apiKey: apiKey
+> apiSecret: apiSecret
+> Content-Type: application/json
+{ 
+    "firstName": "",
+    "lastName": "",
+    "email": ""
+}
+< 201
+< Content-Type: application/json
+{ "status": "created", "url": "/players/{id}" }
+
+Get player details
+GET /players/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "id": ,
+    "firstName": "",
+    "lastName": "",
+    "email": "",
+    "numberOfPoints": ,
+    "badges": [
+        "id": ,
+        "name":"",
+        "description": "",
+        "icon": ""
+    ]
+}
+
+Update player information
+PUT /players/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+> Content-Type: application/json
+{ 
+    "firstName": "",
+    "lastName": "",
+    "email": ""
+}
+< 200
+
+
+Delete a player
+DELETE /players/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+
+
+Get list of badges
+GET /badges
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "items":
+    [
+        "id": ,
+        "name":"",
+        "description": "",
+        "icon": ""
+    ]
+}
+
+Add a new badge
+POST /badges
+> apiKey: apiKey
+> apiSecret: apiSecret
+> Content-Type: application/json
+{ 
+    "name": "",
+    "description": "",
+    "icon": ""
+}
+< 201
+< Content-Type: application/json
+{ "status": "created", "url": "/badges/{id}" }
+
+Get badge details
+GET /badges/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "id": ,
+    "name": "",
+    "description": "",
+    "icon": ""
+}
+
+Update badge informations
+PUT /badges/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+> Content-Type: application/json
+{ 
+    "name": "",
+    "description": "",
+    "icon": ""
+}
+< 200
+
+
+Delete a badge
+DELETE /badges/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+
+
+Get list of rules
+GET /rules
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "items":
+    [
+        "id": ,
+        "badgeId": ,
+        "numberOfPoints": ,
+        "onEventType": ""
+    ]
+}
+
+Add a new rule
+POST /rules
+> apiKey: apiKey
+> apiSecret: apiSecret
+> Content-Type: application/json
+{ 
+    "badgeId": ,
+    "numberOfPoints": ,
+    "onEventType": ""
+}
+< 201
+< Content-Type: application/json
+{ "status": "created", "url": "/rules/{id}" }
+
+Get rule details
+GET /rules/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "id": ,
+    "badgeId": ,
+    "numberOfPoints": ,
+    "onEventType": ""
+}
+
+Update rule informations
+PUT /rules/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+> Content-Type: application/json
+{ 
+    "badgeId": ,
+    "numberOfPoints": ,
+    "onEventType": ""
+}
+< 200
+
+
+Delete a rule
+DELETE /rules/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+
+
+Get list of Events
+GET /events
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "items": [
+        "id": ,
+        "playerId": ,
+        "type": "",
+        "timestemp": ""
+    ]
+}
+
+Add new event
+POST /events
+> apiKey: apiKey
+> apiSecret: apiSecret
+> Content-Type: application/json
+{ 
+    "playerId": ,
+    "type": "",
+    "timestemp": ""
+}
+< 201
+< Content-Type: application/json
+{ "status": "created", "url": "/events/{id}" }
+
+
+Get Event details
+GET /events/{id}
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "id": "",
+    "playerId": "",
+    "type": "",
+    "timestemp": ""
+}
+
+
+Get LeaderBoard
+GET /leaderboard
+> apiKey: apiKey
+> apiSecret: apiSecret
+< 200
+< Content-Type: application/json
+{
+    "name": "",
+    "description": "",
+    "ranking": [
+        "playerId": "",
+        "points": 
+    ]
+}

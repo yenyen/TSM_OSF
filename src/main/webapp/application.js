@@ -5,7 +5,7 @@
  */
 
 
-	var baseURL="http://localhost:8080/thevoz-phanzu-gamification/api/";
+	var baseURL="api";
     $('#json').click(function(){ 
         alert('json');
          $.getJSON(baseURL+"/applications",

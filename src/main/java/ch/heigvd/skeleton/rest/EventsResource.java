@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.*;
 import ch.heigvd.skeleton.services.crud.*;
@@ -52,7 +53,7 @@ public class EventsResource extends AbstractResource {
     @POST
     @Consumes({"application/json"})
     public Response createResource(PublicEventTO newTO)
-            throws LoginFailedException {
+            throws LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         
         Event event = new Event();
@@ -91,7 +92,7 @@ public class EventsResource extends AbstractResource {
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
     public PublicEventTO getResource(@PathParam("id") long id) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Event event = eventsManager.findById(id);
         

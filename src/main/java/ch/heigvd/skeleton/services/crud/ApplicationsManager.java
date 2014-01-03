@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.services.crud;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.Application;
 import ch.heigvd.skeleton.model.Player;
@@ -32,11 +33,32 @@ public class ApplicationsManager extends AbstractManager<Application> implements
 	}
 
 	@Override
+	public long create(Application m)throws InvalidOperationException {
+		Application o = null;
+		try {
+                    o = createNamedQuery(NamedQuery.findByKey)
+                            .setParameter("apiKey", m.getApiKey())
+                            .getSingleResult();
+		}
+                catch(Exception e)
+                {
+                }
+		
+		if(o!=null)
+			throw new InvalidOperationException(InvalidOperationException.OperationEnum.Create);
+		return super.create(m); //To change body of generated methods, choose Tools | Templates.
+	}
+	
+	
+
+	@Override
 	public TypedQuery<Application> createNamedQuery(NamedQuery argv) {
 		if(argv==NamedQuery.findAll)
                     return createNamedQuery("findAllApplications");
                 else if(argv==NamedQuery.findByKeyAndSecret)
-                    return createNamedQuery("findApplicaitonByKeyAndSecret");
+                    return createNamedQuery("findApplicationByKeyAndSecret");
+                else if(argv == NamedQuery.findByKey)
+                    return createNamedQuery("findApplicationByKey");
                 
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
@@ -44,15 +66,15 @@ public class ApplicationsManager extends AbstractManager<Application> implements
         @Override
         public Application login(String apiKey, String apiSecret) throws LoginFailedException {
 			Application application = null;
-			try{
-				logger.info(String.format("login(%s, %s)", apiKey, apiSecret));
-				application = createNamedQuery(NamedQuery.findByKeyAndSecret)
+            try{
+                    logger.info(String.format("login(%s, %s)", apiKey, apiSecret));
+                    application = createNamedQuery(NamedQuery.findByKeyAndSecret)
 						.setParameter("apiKey", apiKey)
 						.setParameter("apiSecret", apiSecret)              
 						.getSingleResult();
-			}catch(javax.persistence.NoResultException e){
-				throw new LoginFailedException(e);
-			}
+            }catch(javax.persistence.NoResultException e){
+                    throw new LoginFailedException(e);
+            }
             
             if(application == null)
                 throw new LoginFailedException();

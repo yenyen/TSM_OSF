@@ -1,6 +1,7 @@
 package ch.heigvd.skeleton.rest;
 
 import ch.heigvd.skeleton.exceptions.EntityNotFoundException;
+import ch.heigvd.skeleton.exceptions.InvalidOperationException;
 import ch.heigvd.skeleton.exceptions.LoginFailedException;
 import ch.heigvd.skeleton.model.*;
 import ch.heigvd.skeleton.services.crud.*;
@@ -55,7 +56,7 @@ public class BadgesResource extends AbstractResource {
     @POST
     @Consumes({"application/json"})
     public Response createResource(PublicBadgeTO newBadgeTO) 
-            throws LoginFailedException {
+            throws LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         
         Badge badge = new Badge();
@@ -93,7 +94,7 @@ public class BadgesResource extends AbstractResource {
     @Path("{id}")
     @Produces({"application/json", "application/xml"})
     public PublicBadgeTO getResource(@PathParam("id") long id) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Badge badge = badgesManager.findById(id);
         
@@ -113,7 +114,7 @@ public class BadgesResource extends AbstractResource {
     @Path("{id}")
     @Consumes({"application/json"})
     public Response Resource(@PathParam("id") long id, PublicBadgeTO updatedBadgeTO) 
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         Badge badgeToUpdate = badgesManager.findById(id);
         
@@ -133,7 +134,7 @@ public class BadgesResource extends AbstractResource {
     @DELETE
     @Path("{id}")
     public Response deleteResource(@PathParam("id") long id)
-            throws EntityNotFoundException, LoginFailedException {
+            throws EntityNotFoundException, LoginFailedException, InvalidOperationException {
         Application application = applicationsManager.login(apiKey, apiSecret);
         if(badgesManager.findById(id).getApplication() != application)
             throw new EntityNotFoundException();
